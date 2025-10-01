@@ -20,11 +20,11 @@ enum Risk {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String
-  email String
-  password String
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String
   nationality String
-  risk Risk @default(LOW)
-  created_at DateTime @default(now())
+  risk        Risk     @default(LOW)
+  created_at  DateTime @default(now())
 }
