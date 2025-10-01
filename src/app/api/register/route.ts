@@ -1,29 +1,38 @@
 import { NextResponse } from "next/server"
-
+import bcrypt from "bcrypt"
 export async function POST(request: Request) {
     try {
+        // ... validation and request-body parsing code ...
         const body : UserDetails = (await request?.json())
-    const {id ,name, email, password, nationality, risk} = body
-    if(!name || !email || !password || !nationality){
-        return NextResponse.json({"error":`${!email ? "email is missing" : !name ? "name is missing" : !password ? "password is missing" : !nationality && "nationality is missing"}`})
-    }
+        const {id ,name, email, password, nationality, risk} = body
 
-    const user = await prisma?.user.findUnique({
-        where:{id:id}
-    })
-    if(user) return NextResponse.json({"error":"Utente gia registrato"})
-    const insertUser = await prisma?.user.create({
-        data:{
-            name:name,
-            email:email,
-            password:password,
-            nationality:nationality,
-            risk:risk
+        const user = await prisma?.user.findUnique({
+            where: { id: id }
+        })
+        if (user) {
+            return NextResponse.json({ "error": "Utente gia registrato" })
         }
-    })
-    return NextResponse.json({message:"Utente registrato correttamente"})
+
+       // Hash the plaintext password before storing
+       const hashedPassword = await bcrypt.hash(password, 10)
+
+        const insertUser = await prisma?.user.create({
+            data: {
+                name: name,
+                email: email,
+               password: hashedPassword,
+                nationality: nationality,
+                risk: risk
+            }
+        })
+        return NextResponse.json({message:"Utente registrato correttamente"},{status:200})
+
     } catch (error) {
-        console.error("error: ",error)
-        return NextResponse.json({error:error})
+        // ... error handling ...
+        console.error("error: ", error)
+    return NextResponse.json(
+        { error: "Errore durante la registrazione" },
+        { status: 500 }
+    )
     }
 }
