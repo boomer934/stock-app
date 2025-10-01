@@ -3,25 +3,24 @@ import prisma from "../../../../prisma/singleton";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { loginSchema } from "@/lib/validation/auth";
 export async function POST(request: Request) {
   try {
-    const body: LoginDetails = await request?.json();
-    const { email, password } = body;
+    const json = (await request.json()) as unknown;
+    const parsed = loginSchema.safeParse(json);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Email o password non validi" }, { status: 400 });
+    }
+    const { email, password } = parsed.data;
 
     if (!email || !password) {
-        return NextResponse.json(
-          { error: "Email e password sono obbligatorie" },
-          { status: 400 }
-        );
-      }
-      
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        return NextResponse.json(
-            { error: "Email non valida" },
-            { status: 400 }
-        );
+      return NextResponse.json(
+        { error: "Email e password sono obbligatorie" },
+        { status: 400 }
+      );
     }
+
+    // Email already validated by Zod schema
 
     const user = await prisma.user.findUnique({
       where: { email },
@@ -59,7 +58,7 @@ export async function POST(request: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 3600
+      maxAge: 3600,
     });
     return NextResponse.json(
       { message: "Login effettuato con successo", token: token },
