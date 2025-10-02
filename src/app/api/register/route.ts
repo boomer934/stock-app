@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import prisma from "../../../../prisma/singleton";
 import bcrypt from "bcrypt";
 import { registerSchema } from "@/lib/validation/auth";
+import nodemailer from "nodemailer";
+import { inngest } from "@/inngest/client";
 export async function POST(request: Request) {
   try {
     const json = (await request.json()) as unknown;
@@ -33,6 +35,19 @@ export async function POST(request: Request) {
       }
       throw error;
     }
+
+    try {
+      inngest.send({
+        name:"api/email.send-email",
+        data:{
+          name,
+          email
+        }
+      })
+    } catch (error) {
+      console.error("Errore nell'invio dell'email:", error);
+    }
+
     return NextResponse.json(
       { message: "Utente registrato correttamente" },
       { status: 200 }
