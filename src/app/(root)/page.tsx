@@ -3,6 +3,7 @@ import TradingViewWidget from "@/components/customized/TradingViewWidget";
 import Screener from "@/components/customized/Screener";
 import Tickers from "@/components/customized/Tickers";
 import News from "@/components/customized/News";
+import Footer from "@/components/customized/Footer";
 export default function Home() {
   return(
     <>
@@ -19,6 +20,7 @@ export default function Home() {
     <div className="flex flex-col gap-5 p-4  text-2">
       <Tickers/>
     </div>
+    <Footer/>
     </>
   )
 }
