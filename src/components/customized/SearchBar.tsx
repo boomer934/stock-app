@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 export default function SearchBar() {
   const [search, setSearch] = useState<string>("");
-  const router = useRouter(); // <-- Hook spostato qui
+  const router = useRouter();
 
   const handleSearch = () => {
     const parsed = SearchSchema.safeParse({ search });
@@ -17,7 +17,7 @@ export default function SearchBar() {
       return;
     }
 
-    router.push("/search?value=" + encodeURIComponent(parsed.data.search));
+    router.push("/assets?value=" + encodeURIComponent(parsed.data.search));
 
     setSearch(""); // reset search value
   };
@@ -25,6 +25,11 @@ export default function SearchBar() {
   return (
     <div className="w-auto h-auto flex gap-1 mx-4">
       <Input
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          handleSearch();
+        }
+      }}
         className="ring-yellow-400 text-white border-none bg-gray-700"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
