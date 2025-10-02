@@ -3,9 +3,11 @@ import Footer from "@/components/customized/Footer";
 
 export default function AssetsLayout({children}: {children: React.ReactNode}) {
     return (
-        <div className="w-full h-full">
+        <div className="w-full min-h-screen flex flex-col">
             <Header/>
-            {children}
+            <main className="flex-1 w-full">
+                {children}
+            </main>
             <Footer/>
         </div>
     )

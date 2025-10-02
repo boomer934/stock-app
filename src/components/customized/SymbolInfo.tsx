@@ -20,7 +20,8 @@ function SymbolInfo({symbol}: {symbol: string}) {
       colorTheme: "dark",
       isTransparent: false,
       locale: "en",
-      width: "100%"
+      width: "100%",
+      height: "100%"
     });
 
     container.current.appendChild(script);
@@ -34,8 +35,8 @@ function SymbolInfo({symbol}: {symbol: string}) {
   }, [symbol]); // Ora include 'symbol' per aggiornare quando cambia
 
   return (
-    <div className="tradingview-widget-container" ref={container}>
-      <div className="tradingview-widget-container__widget"></div>
+    <div className="tradingview-widget-container w-full h-full min-h-[200px] sm:min-h-[250px]" ref={container}>
+      <div className="tradingview-widget-container__widget w-full h-full"></div>
     </div>
   );
 }

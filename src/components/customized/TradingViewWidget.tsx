@@ -75,8 +75,8 @@ function TradingViewWidget() {
   }, []);
 
   return (
-    <div className="tradingview-widget-container rounded-lg" ref={container}>
-      <div className="tradingview-widget-container__widget rounded-lg"></div>
+    <div className="tradingview-widget-container w-full h-full min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] rounded-lg" ref={container}>
+      <div className="tradingview-widget-container__widget w-full h-full rounded-lg"></div>
     </div>
   );
 }

@@ -35,8 +35,8 @@ function News() {
   }, []);
 
   return (
-    <div className="tradingview-widget-container" ref={container}>
-      <div className="tradingview-widget-container__widget"></div>
+    <div className="tradingview-widget-container w-full h-full min-h-[300px] sm:min-h-[400px] relative overflow-hidden" ref={container}>
+      <div className="tradingview-widget-container__widget w-full h-full relative"></div>
     </div>
   );
 }

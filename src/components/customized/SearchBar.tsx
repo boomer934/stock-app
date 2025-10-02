@@ -25,7 +25,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="w-auto h-auto flex gap-1 mx-4">
+    <div className="w-full h-auto flex gap-1">
       <div
       onKeyDown={(e) => {
         if (e.key === "Enter") {
@@ -33,9 +33,9 @@ export default function SearchBar() {
         }
       }}
         onClick={() => setOpen(!open)}
-        className="ring-yellow-400 text-white border-none bg-gray-700 w-auto rounded-xl p-1 px-5"
+        className="ring-yellow-400 text-white border-none bg-gray-700 w-full rounded-lg sm:rounded-xl p-2 sm:p-3 px-3 sm:px-5 cursor-pointer hover:bg-gray-600 transition-colors"
       >
-        <span className="text-gray-400">Search assets...</span>
+        <span className="text-gray-400 text-sm sm:text-base">Search assets...</span>
       </div>
       {open && <BgCoverSearchBar open={open} setOpen={setOpen}/>}
     </div>

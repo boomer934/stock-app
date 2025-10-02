@@ -15,14 +15,14 @@ export default function DropDownMenu() {
     <DropdownMenu>
         <DropdownMenuTrigger asChild>
             <Button
-            className='bg-yellow-400 text-black p-3'>
-                menu
+            className='bg-yellow-400 text-black p-2 sm:p-3 text-xs sm:text-sm'>
+                Menu
             </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className='border-none outline-none bg-gray-700 text-yellow-400 mr-[15px]'>
-            <DropdownMenuItem className='text-right'>Dashboard</DropdownMenuItem>
-            <DropdownMenuItem className='text-right'>Portfolio</DropdownMenuItem>
-            <DropdownMenuItem className='text-right'>Market</DropdownMenuItem>
+        <DropdownMenuContent className='border-none outline-none bg-gray-700 text-yellow-400 mr-2 sm:mr-4 min-w-[120px]'>
+            <DropdownMenuItem className='text-right text-sm hover:bg-gray-600 cursor-pointer'>Dashboard</DropdownMenuItem>
+            <DropdownMenuItem className='text-right text-sm hover:bg-gray-600 cursor-pointer'>Portfolio</DropdownMenuItem>
+            <DropdownMenuItem className='text-right text-sm hover:bg-gray-600 cursor-pointer'>Market</DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>
   )

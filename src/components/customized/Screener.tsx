@@ -37,8 +37,8 @@ function Screener() {
   }, []);
 
   return (
-    <div className="tradingview-widget-container" ref={container}>
-      <div className="tradingview-widget-container__widget"></div>
+    <div className="tradingview-widget-container w-full h-full min-h-[400px] sm:min-h-[500px] lg:min-h-[600px]" ref={container}>
+      <div className="tradingview-widget-container__widget w-full h-full"></div>
     </div>
   );
 }

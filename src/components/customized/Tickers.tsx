@@ -64,8 +64,8 @@ function Tickers() {
   }, []);
 
   return (
-    <div className="tradingview-widget-container" ref={container}>
-      <div className="tradingview-widget-container__widget"></div>
+    <div className="tradingview-widget-container w-full h-full min-h-[60px] sm:min-h-[80px]" ref={container}>
+      <div className="tradingview-widget-container__widget w-full h-full"></div>
     </div>
   );
 }

@@ -30,9 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.className} antialiased bg-gray-900`}
+        className={`${inter.className} antialiased bg-gray-900 min-h-screen w-full overflow-x-hidden`}
       >
-        {children}
+        <div className="min-h-screen w-full flex flex-col">
+          {children}
+        </div>
       </body>
     </html>
   );
