@@ -64,6 +64,12 @@ function TradingViewWidget() {
       container.current.innerHTML = ""; // pulizia per evitare duplicati
       container.current.appendChild(script);
     }
+
+    return () => {
+      if (container.current) {
+        container.current.innerHTML = "";
+      }
+    };
   }, []);
 
   return (

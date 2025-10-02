@@ -50,6 +50,11 @@ function Tickers() {
           "displayMode": "adaptive"
         });
       container.current?.appendChild(script);
+      return () => {
+        if (container.current) {
+          container.current.innerHTML = "";
+        }
+      };
     },
     []
   );

@@ -29,12 +29,14 @@ export default function LoginForm() {
     try {
       setLoading(true);
       setError(null);
-      await axios.post("/api/login", parsed.data);
-      form.reset();
-      router.push("/");
+      const response = await axios.post("/api/login", parsed.data);
+      if (response.status === 200) {
+        form.reset();
+        await router.push("/");
+      }
     } catch (err) {
       setError("Email o password non validi");
-      console.error("Errore durante il login:", err);
+      // Production: remove or use proper error tracking service
     } finally {
       setLoading(false);
     }
@@ -66,7 +68,7 @@ export default function LoginForm() {
         <Button
           type="submit"
           variant={"destructive"}
-          className="-2 bg-yellow-400 text-gray-600 hover:bg-yellow-500 hover:text-gray-900"
+          className="mt-2 bg-yellow-400 text-gray-600 hover:bg-yellow-500 hover:text-gray-900"
           disabled={loading}
         >
           {loading ? "Logging in..." : "Login"}

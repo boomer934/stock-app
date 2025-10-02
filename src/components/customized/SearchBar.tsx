@@ -17,7 +17,7 @@ export default function SearchBar() {
       return;
     }
 
-    router.push("/search?value=" + parsed.data.search);
+    router.push("/search?value=" + encodeURIComponent(parsed.data.search));
 
     setSearch(""); // reset search value
   };

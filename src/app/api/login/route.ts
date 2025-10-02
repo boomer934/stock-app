@@ -13,15 +13,6 @@ export async function POST(request: Request) {
     }
     const { email, password } = parsed.data;
 
-    if (!email || !password) {
-      return NextResponse.json(
-        { error: "Email e password sono obbligatorie" },
-        { status: 400 }
-      );
-    }
-
-    // Email already validated by Zod schema
-
     const user = await prisma.user.findUnique({
       where: { email },
     });
@@ -61,7 +52,7 @@ export async function POST(request: Request) {
       maxAge: 3600,
     });
     return NextResponse.json(
-      { message: "Login effettuato con successo", token: token },
+      { message: "Login effettuato con successo"},
       { status: 200 }
     );
   } catch (error) {

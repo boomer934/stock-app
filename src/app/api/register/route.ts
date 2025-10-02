@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import prisma from "../../../../prisma/singleton";
 import bcrypt from "bcrypt";
 import { registerSchema } from "@/lib/validation/auth";
-import nodemailer from "nodemailer";
 import { inngest } from "@/inngest/client";
 export async function POST(request: Request) {
   try {
@@ -37,7 +36,7 @@ export async function POST(request: Request) {
     }
 
     try {
-      inngest.send({
+      await inngest.send({
         name:"api/email.send-email",
         data:{
           name,

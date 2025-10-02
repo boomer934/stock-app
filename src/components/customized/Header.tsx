@@ -4,6 +4,7 @@ import { Button } from '../ui/button'
 import { MenuIcon } from 'lucide-react'
 import DropDownMenu from './DropDownMenu'
 import SearchBar from './SearchBar'
+import Link from 'next/link'
 
 export default function Header() {
   return (
@@ -14,9 +15,11 @@ export default function Header() {
           <DropDownMenu/>
         </div>
         <div className='hidden md:flex gap-4 text-yellow-400'>
-          <Button>Dashboard</Button>
-          <Button>Portfolio</Button>
-          <Button>Market</Button>
+          <div className='hidden md:flex gap-4 text-yellow-400'>
+          <Link href="/dashboard"><Button>Dashboard</Button></Link>
+          <Link href="/portfolio"><Button>Portfolio</Button></Link>
+          <Link href="/market"><Button>Market</Button></Link>
+          </div>
         </div>
     </nav>
   )

@@ -5,21 +5,34 @@ export const sendEmail = inngest.createFunction(
   { event: "api/email.send-email" },
   async ({ event, step }: any) => {
     const { name, email } = event.data as { name: string; email: string };
+
+    const requiredEnvVars = [
+      "EMAIL",
+      "CLIENT_ID",
+      "CLIENT_SECRET",
+      "REFRESH_TOKEN",
+    ] as const;
+    for (const varName of requiredEnvVars) {
+      if (!process.env[varName]) {
+        throw new Error(`Missing required environment variable: ${varName}`);
+      }
+    }
+
     const transporter: Transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            type: "OAuth2",
-            user: process.env.EMAIL,
-            clientId: process.env.CLIENT_ID,
-            clientSecret: process.env.CLIENT_SECRET,
-            refreshToken: process.env.REFRESH_TOKEN,
-          },
-        });
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: process.env.EMAIL,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+      },
+    });
     const mailOptions = {
-        from: `"Trading Alerts" <${process.env.EMAIL}>`,
-        to: email,
-        subject: "Benvenuto nel tuo portale di Trading Alerts! 🚀",
-        html: `
+      from: `"Trading Alerts" <${process.env.EMAIL}>`,
+      to: email,
+      subject: "Benvenuto nel tuo portale di Trading Alerts! 🚀",
+      html: `
         <h2>Ciao ${name}, benvenuto su Stock Alerts!</h2>
           <p>Siamo felici che ti sia iscritto al nostro sito di trading. 🎉</p>
           <p>Con Stock Alerts potrai:</p>
@@ -31,7 +44,7 @@ export const sendEmail = inngest.createFunction(
           <p>Inizia subito a impostare i tuoi alert e resta sempre aggiornato!</p>
           <p>Buon trading,<br><strong>Il team di Stock Alerts</strong></p>
         `,
-      };
+    };
     await step.run("send-email", async () => {
       const info = await transporter.sendMail(mailOptions);
       console.log(

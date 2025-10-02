@@ -8,10 +8,12 @@ import { registerSchema } from "@/lib/validation/auth";
 
 export default function RegisterForm() {
   const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
 
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -25,8 +27,7 @@ export default function RegisterForm() {
 
     const parsed = registerSchema.safeParse(data);
     if (!parsed.success) {
-      // You can wire these to UI messages later
-      console.error(parsed.error);
+      setError(parsed.error.issues[0].message);
       return;
     }
 
