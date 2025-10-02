@@ -45,7 +45,7 @@ function AdvancedChart({symbol}: {symbol: string}) {
   );
 
   return (
-    <div className="tradingview-widget-container w-full h-full min-h-[300px]" ref={container}>
+    <div className="tradingview-widget-container w-full h-full min-h-[300px] overflow-y-hidden" ref={container}>
       <div className="tradingview-widget-container__widget w-full h-full"></div>
     </div>
   );
