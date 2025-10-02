@@ -12,15 +12,11 @@ export default function Home() {
       <h1 className="text-2xl font-bold text-yellow-400">Market overview</h1>
       <TradingViewWidget/>
       <Screener/>
-    </div>
-    <div className="flex flex-col h-[400px] gap-5 max-w-[400px] p-4 text-2">
-      <h1 className="text-2xl font-bold text-yellow-400 mt-22">News</h1>
+      <h1 className="text-2xl font-bold text-yellow-400 ">News</h1>
       <News/>
-    </div>
-    <div className="flex flex-col gap-5 p-4  text-2 mt-20">
       <Tickers/>
+      <Footer/>
     </div>
-    <Footer/>
     </>
   )
 }
