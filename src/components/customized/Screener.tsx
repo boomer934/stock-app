@@ -5,28 +5,36 @@ import React, { useEffect, useRef, memo } from 'react';
 function Screener() {
   const container = useRef<HTMLDivElement>(null);
 
-  useEffect(
-    () => {
-      const script = document.createElement("script");
-      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-screener.js";
-      script.type = "text/javascript";
-      script.async = true;
-      script.innerHTML = `
-        {
-          "market": "forex",
-          "showToolbar": true,
-          "defaultColumn": "overview",
-          "defaultScreen": "general",
-          "isTransparent": false,
-          "locale": "en",
-          "colorTheme": "dark",
-          "width": "100%",
-          "height": 550
-        }`;
-      container.current?.appendChild(script);
-    },
-    []
-  );
+  useEffect(() => {
+    if (!container.current) return;
+
+    // Pulisci il container per evitare duplicati
+    container.current.innerHTML = '';
+
+    const script = document.createElement("script");
+    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-screener.js";
+    script.type = "text/javascript";
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+      "market": "forex",
+      "showToolbar": true,
+      "defaultColumn": "overview",
+      "defaultScreen": "general",
+      "isTransparent": false,
+      "locale": "en",
+      "colorTheme": "dark",
+      "width": "100%",
+      "height": 550
+    });
+    container.current.appendChild(script);
+
+    // Cleanup: rimuovi lo script al dismount
+    return () => {
+      if (container.current) {
+        container.current.innerHTML = '';
+      }
+    };
+  }, []);
 
   return (
     <div className="tradingview-widget-container" ref={container}>

@@ -4,7 +4,13 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <footer className="relative flex flex-col gap-2 justify-start items-start p-4 text-yellow-400 border-t-1 border-yellow-400 mx-4">
-      <Image src="/logo-nobg.png" alt="Signals" width={50} height={50} className="absolute top-5 right-5"></Image>
+      <Image
+        src="/logo-nobg.png"
+        alt="Signals"
+        width={50}
+        height={50}
+        className="absolute top-5 right-5"
+      ></Image>
       <h3>Pages</h3>
       <ul className="flex flex-col gap-2 text-[90%] text-yellow-400/50">
         <li className="cursor-pointer">

@@ -6,6 +6,11 @@ function TradingViewWidget() {
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!container.current) return;
+
+    // Pulisci il container per evitare duplicati (già presente, ma standardizzato)
+    container.current.innerHTML = '';
+
     const script = document.createElement("script");
     script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
     script.type = "text/javascript";
@@ -59,15 +64,12 @@ function TradingViewWidget() {
       hideMarketStatus: false,
       hideSymbolLogo: false
     });
+    container.current.appendChild(script);
 
-    if (container.current) {
-      container.current.innerHTML = ""; // pulizia per evitare duplicati
-      container.current.appendChild(script);
-    }
-
+    // Cleanup: rimuovi lo script al dismount (già presente, ma standardizzato)
     return () => {
       if (container.current) {
-        container.current.innerHTML = "";
+        container.current.innerHTML = '';
       }
     };
   }, []);

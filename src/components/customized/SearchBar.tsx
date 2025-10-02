@@ -5,9 +5,11 @@ import { Button } from "../ui/button";
 import { Search } from "lucide-react";
 import { SearchSchema } from "@/lib/types/generic";
 import { useRouter } from "next/navigation";
+import BgCoverSearchBar from "./BgCoverSearchBar";
 
 export default function SearchBar() {
   const [search, setSearch] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const handleSearch = () => {
@@ -24,26 +26,18 @@ export default function SearchBar() {
 
   return (
     <div className="w-auto h-auto flex gap-1 mx-4">
-      <Input
+      <div
       onKeyDown={(e) => {
         if (e.key === "Enter") {
           handleSearch();
         }
       }}
-        className="ring-yellow-400 text-white border-none bg-gray-700"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        type="text"
-        placeholder="search assets..."
-      />
-      <Button
-        type="button"
-        variant={"outline"}
-        className="bg-yellow-400 text-black"
-        onClick={handleSearch} // <-- usa direttamente la funzione
+        onClick={() => setOpen(!open)}
+        className="ring-yellow-400 text-white border-none bg-gray-700 w-auto rounded-xl p-1 px-5"
       >
-        <Search />
-      </Button>
+        <span className="text-gray-400">Search assets...</span>
+      </div>
+      {open && <BgCoverSearchBar open={open} setOpen={setOpen}/>}
     </div>
   );
 }
