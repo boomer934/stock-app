@@ -1,0 +1,49 @@
+// Global error handler for TradingView widget errors
+const originalError = console.error;
+console.error = function(...args) {
+  // Filter out TradingView widget errors that don't affect functionality
+  const errorMessage = args.join(' ');
+  if (
+    errorMessage.includes("can't access property") &&
+    errorMessage.includes('querySelector') &&
+    (errorMessage.includes('embed-widget') || errorMessage.includes('tradingview'))
+  ) {
+    // Log as warning instead of error to reduce noise
+    console.warn('TradingView widget error (non-critical):', ...args);
+    return;
+  }
+
+  // Call original error for other errors
+  originalError.apply(console, args);
+};
+
+// Global uncaught error handler
+window.addEventListener('error', function(event) {
+  // Filter TradingView widget errors
+  if (
+    event.message.includes("can't access property") &&
+    event.message.includes('querySelector') &&
+    event.filename.includes('tradingview')
+  ) {
+    console.warn('TradingView widget error caught (non-critical):', event.message);
+    event.preventDefault(); // Prevent the error from being logged
+    return false;
+  }
+});
+
+// Global unhandled promise rejection handler
+window.addEventListener('unhandledrejection', function(event) {
+  // Filter TradingView widget errors
+  if (
+    event.reason &&
+    event.reason.message &&
+    event.reason.message.includes("can't access property") &&
+    event.reason.message.includes('querySelector') &&
+    event.reason.stack &&
+    event.reason.stack.includes('tradingview')
+  ) {
+    console.warn('TradingView widget promise error caught (non-critical):', event.reason.message);
+    event.preventDefault(); // Prevent the error from being logged
+    return false;
+  }
+});

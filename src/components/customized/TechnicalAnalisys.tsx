@@ -1,36 +1,52 @@
-// TradingViewWidget.jsx
+"use client"
 import React, { useEffect, useRef, memo } from 'react';
 
 function TechnicalAnalisys({symbol}: {symbol: string}) {
   const container = useRef<HTMLDivElement>(null);
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
 
-  useEffect(
-    () => {
-      const script = document.createElement("script");
-      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
-      script.type = "text/javascript";
-      script.async = true;
-      script.innerHTML = JSON.stringify({
-          "colorTheme": "dark",
-          "displayMode": "single",
-          "isTransparent": false,
-          "locale": "en",
-          "interval": "1m",
-          "disableInterval": false,
-          "width": "100%",
-          "height": "100%",
-          "symbol": symbol,
-          "showIntervalTabs": true
-        });
-      container.current?.appendChild(script);
-      return ()=>{
-        if(container.current){
-          container.current.innerHTML = '';
-        }
+  useEffect(() => {
+    if (!container.current) return;
+
+    // Clean up existing script if it exists
+    if (scriptRef.current) {
+      scriptRef.current.remove();
+      scriptRef.current = null;
+    }
+
+    // Clear container
+    container.current.innerHTML = '';
+
+    const script = document.createElement("script");
+    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
+    script.type = "text/javascript";
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+      "colorTheme": "dark",
+      "displayMode": "single",
+      "isTransparent": false,
+      "locale": "en",
+      "interval": "1m",
+      "disableInterval": false,
+      "width": "100%",
+      "height": "100%",
+      "symbol": symbol,
+      "showIntervalTabs": true
+    });
+
+    scriptRef.current = script;
+    container.current.appendChild(script);
+
+    return () => {
+      if (scriptRef.current) {
+        scriptRef.current.remove();
+        scriptRef.current = null;
       }
-    },
-    [symbol]
-  );
+      if (container.current) {
+        container.current.innerHTML = '';
+      }
+    }
+  }, [symbol]);
 
   return (
     <div className="tradingview-widget-container w-full h-full min-h-[300px]" ref={container}>

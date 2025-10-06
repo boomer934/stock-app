@@ -19,7 +19,9 @@ export default function SearchBar() {
       return;
     }
 
-    router.push("/assets?value=" + encodeURIComponent(parsed.data.search));
+    // Force a hard refresh to ensure clean state
+    const targetUrl = `/assets?value=${encodeURIComponent(parsed.data.search)}`;
+    window.location.href = targetUrl;
 
     setSearch(""); // reset search value
   };

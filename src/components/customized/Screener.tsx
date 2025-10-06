@@ -1,14 +1,20 @@
-// TradingViewWidget.jsx
 "use client"
 import React, { useEffect, useRef, memo } from 'react';
 
 function Screener() {
   const container = useRef<HTMLDivElement>(null);
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
 
   useEffect(() => {
     if (!container.current) return;
 
-    // Pulisci il container per evitare duplicati
+    // Clean up existing script if it exists
+    if (scriptRef.current) {
+      scriptRef.current.remove();
+      scriptRef.current = null;
+    }
+
+    // Clear container
     container.current.innerHTML = '';
 
     const script = document.createElement("script");
@@ -24,12 +30,17 @@ function Screener() {
       "locale": "en",
       "colorTheme": "dark",
       "width": "100%",
-      "height": 550
+      "height": "100%"
     });
+
+    scriptRef.current = script;
     container.current.appendChild(script);
 
-    // Cleanup: rimuovi lo script al dismount
     return () => {
+      if (scriptRef.current) {
+        scriptRef.current.remove();
+        scriptRef.current = null;
+      }
       if (container.current) {
         container.current.innerHTML = '';
       }

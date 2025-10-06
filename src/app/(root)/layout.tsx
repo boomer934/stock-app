@@ -28,7 +28,93 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark overflow-x-hidden">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // TradingView Error Filter - MUST run before any TradingView script
+              (function() {
+                'use strict';
+                
+                // Store original console methods
+                const originalError = console.error;
+                const originalWarn = console.warn;
+
+                // Override console.error to filter TradingView errors
+                console.error = function(...args) {
+                  const errorMessage = String(args[0] || '');
+                  
+                  // Filter TradingView querySelector errors
+                  if (
+                    errorMessage.includes("can't access property") &&
+                    errorMessage.includes('querySelector') &&
+                    (errorMessage.includes('embed-widget') || 
+                     errorMessage.includes('tradingview') ||
+                     errorMessage.includes('_replaceScript'))
+                  ) {
+                    // Completely silent - do not log anything
+                    return;
+                  }
+                  
+                  // Call original error for non-TradingView errors
+                  return originalError.apply(console, args);
+                };
+
+                // Override console.warn too
+                console.warn = function(...args) {
+                  const warnMessage = String(args[0] || '');
+                  
+                  if (
+                    warnMessage.includes("can't access property") &&
+                    warnMessage.includes('querySelector') &&
+                    (warnMessage.includes('embed-widget') || 
+                     warnMessage.includes('tradingview'))
+                  ) {
+                    return;
+                  }
+                  
+                  return originalWarn.apply(console, args);
+                };
+
+                // Global error handler for uncaught errors
+                window.addEventListener('error', function(event) {
+                  if (
+                    event.message &&
+                    event.message.includes("can't access property") &&
+                    event.message.includes('querySelector') &&
+                    event.filename &&
+                    (event.filename.includes('tradingview') || 
+                     event.filename.includes('embed-widget'))
+                  ) {
+                    // Prevent error from being logged
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return false;
+                  }
+                }, true); // Use capture phase
+
+                // Global promise rejection handler
+                window.addEventListener('unhandledrejection', function(event) {
+                  if (
+                    event.reason &&
+                    event.reason.message &&
+                    event.reason.message.includes("can't access property") &&
+                    event.reason.message.includes('querySelector') &&
+                    event.reason.stack &&
+                    event.reason.stack.includes('tradingview')
+                  ) {
+                    event.preventDefault();
+                    return false;
+                  }
+                });
+
+                console.log('🚫 TradingView Error Filter ACTIVE - All querySelector errors will be suppressed');
+              })();
+            `
+          }}
+        />
+      </head>
       <body
         className={`${inter.className} antialiased bg-gray-900 min-h-screen w-full overflow-x-hidden`}
       >

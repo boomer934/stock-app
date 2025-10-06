@@ -22,7 +22,10 @@ export default function BgCoverSearchBar({
       return;
     }
 
-    router.push("/assets?value=" + encodeURIComponent(parsed.data.search));
+    // Force a hard refresh to ensure clean state
+    const targetUrl = `/assets?value=${encodeURIComponent(parsed.data.search)}`;
+    window.location.href = targetUrl;
+    
     setOpen(false);
     setSearch(""); // reset search value
   };
