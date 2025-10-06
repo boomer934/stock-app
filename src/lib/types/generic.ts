@@ -8,3 +8,13 @@ export type SearchProps = {
     setSearch:React.Dispatch<React.SetStateAction<string>>
 }
 
+export type User = {
+    id:string
+    name:string
+    email:string
+}
+
+export type UserProps = {
+    user:User | null
+    setUser:React.Dispatch<React.SetStateAction<User | null>>
+}

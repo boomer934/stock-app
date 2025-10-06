@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { loginSchema } from "@/lib/validation/auth";
+import { useUserContext } from "@/components/contextProvider/AppProvider";
 
 export default function LoginForm() {
+  const {user, setUser} = useUserContext()
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
@@ -32,7 +34,8 @@ export default function LoginForm() {
       const response = await axios.post("/api/login", parsed.data);
       if (response.status === 200) {
         form.reset();
-        await router.push("/");
+        router.push("/");
+        setUser(response.data.user)
       }
     } catch (err) {
       setError("Email o password non validi");

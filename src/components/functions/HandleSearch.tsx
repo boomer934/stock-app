@@ -1,5 +1,4 @@
 import { SearchProps } from "@/lib/types/generic";
-import { useRouter } from "next/navigation"; // Fixed: Use next/navigation instead of next/router
 import { SearchSchema } from "@/lib/types/generic";
 
 export default function HandleSearch({search,setSearch}:SearchProps){
@@ -9,8 +8,6 @@ export default function HandleSearch({search,setSearch}:SearchProps){
         console.error(parsed.error)
         return
     }
-    
-    const router = useRouter()
     
     // Navigate to assets page directly with proper Next.js 13+ routing
     const targetUrl = `/assets?value=${encodeURIComponent(parsed.data.search)}`;

@@ -43,7 +43,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const token = jwt.sign({ id: user.id }, secret, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user.id }, secret, { expiresIn: "5h" });
     const cookieStore = await cookies();
     cookieStore.set("token", token, {
       httpOnly: true,
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       maxAge: 3600,
     });
     return NextResponse.json(
-      { message: "Login effettuato con successo"},
+      { message: "Login effettuato con successo", token, user},
       { status: 200 }
     );
   } catch (error) {
