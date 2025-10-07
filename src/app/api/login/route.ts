@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import prisma from "../../../../prisma/singleton";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { loginSchema } from "@/lib/validation/auth";
 export async function POST(request: Request) {
   try {
@@ -38,23 +37,22 @@ export async function POST(request: Request) {
     const secret = process.env.JWT_SECRET;
     if (!secret) {
       return NextResponse.json(
-        { error: "Variabile d'ambiente JWT_SECRET non trovata" },
         { status: 500 }
       );
     }
 
     const token = jwt.sign({ id: user.id }, secret, { expiresIn: "5h" });
-    const cookieStore = await cookies();
-    cookieStore.set("token", token, {
+    const response = NextResponse.json(
+      { message: "Login effettuato con successo", token, user},
+      { status: 200 }
+    ) as NextResponse;
+    response.cookies.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       maxAge: 3600,
     });
-    return NextResponse.json(
-      { message: "Login effettuato con successo", token, user},
-      { status: 200 }
-    );
+    return response;
   } catch (error) {
     console.error("error: ", error);
     return NextResponse.json(

@@ -27,7 +27,7 @@ try {
 } catch (error) {
     console.error("error: ", error);
     return NextResponse.json(
-        { error: "Errore durante il login" },
+        { error: "Errore durante il rucupero dell' utente" },
         { status: 500 }
     );
 }   
