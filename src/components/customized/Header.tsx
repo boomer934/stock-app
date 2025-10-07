@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import { Button } from '../ui/button'
-import { MenuIcon } from 'lucide-react'
+import { HamburgerMenuIcon} from "@radix-ui/react-icons"
 import DropDownMenu from './DropDownMenu'
 import SearchBar from './SearchBar'
 import Link from 'next/link'

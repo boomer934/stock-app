@@ -1,16 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Search } from "lucide-react";
 import { SearchSchema } from "@/lib/types/generic";
-import { useRouter } from "next/navigation";
-import BgCoverSearchBar from "./BgCoverSearchBar";
+import BgCoverSearchBar from "./BgCoverSearchBar"
 
 export default function SearchBar() {
   const [search, setSearch] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
-  const router = useRouter();
 
   const handleSearch = () => {
     const parsed = SearchSchema.safeParse({ search });

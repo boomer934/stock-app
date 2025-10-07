@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SearchSchema } from "@/lib/types/generic";
 import AutoSuggestions from "./AutoSuggestions";
+import {MagnifyingGlassIcon, Cross1Icon} from "@radix-ui/react-icons"
 
 export default function BgCoverSearchBar({
   open,
@@ -47,8 +47,7 @@ export default function BgCoverSearchBar({
     <div className="flex flex-col gap-2">
       <div className="fixed top-0 left-0 w-full min-h-screen z-50 bg-black/20 backdrop-blur-[4px] flex flex-col items-center justify-center px-4">
         <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg p-4 bg-gray-600 rounded-lg shadow-lg flex flex-col gap-2">
-          <X
-            className="cursor-pointer absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-yellow-400 rounded-full p-1 sm:p-2 w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center"
+          <Cross1Icon className="cursor-pointer absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-yellow-400 rounded-full p-1 sm:p-2 w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center"
             onClick={() => setOpen(false)}
           />
           <div className="flex gap-2">
@@ -71,7 +70,7 @@ export default function BgCoverSearchBar({
               onClick={handleSearch}
               disabled={search.length < 1}
             >
-              <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+              <MagnifyingGlassIcon/>
             </Button>
           </div>
           <AutoSuggestions search={search} setSearch={setSearch} />

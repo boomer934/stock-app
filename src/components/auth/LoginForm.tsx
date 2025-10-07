@@ -47,16 +47,14 @@ export default function LoginForm() {
 
   return (
     <div className="relative flex flex-col justify-center items-center h-auto w-full max-w-md mx-auto">
-      {/* Animated background with floating elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-yellow-900 to-slate-900 rounded-3xl shadow-2xl overflow-hidden">
-        {/* Floating orbs */}
-        <div className="absolute top-10 left-10 w-20 h-20 bg-yellow-400/20 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-10 right-10 w-32 h-32 bg-yellow-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-yellow-400/10 rounded-full blur-2xl animate-pulse delay-500"></div>
-      </div>
+      {/* Floating orbs */}
+      <div className="absolute top-10 left-10 w-20 h-20 bg-yellow-400/20 rounded-full blur-xl animate-pulse"></div>
+      <div className="absolute bottom-10 right-10 w-32 h-32 bg-yellow-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-yellow-400/10 rounded-full blur-2xl animate-pulse delay-500"></div>
+     
 
       {/* Enhanced glass morphism effect */}
-      <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl transform transition-all duration-500 hover:shadow-yellow-400/20 hover:scale-[1.02] hover:bg-white/10">
+      <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl transform transition-all duration-500 hover:shadow-yellow-400/20 hover:bg-white/10 bg-gradient-to-br from-slate-900 via-yellow-900 to-slate-900 overflow-hidden">
         {/* Enhanced header with icon */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl flex items-center justify-center shadow-lg">

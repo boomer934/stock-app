@@ -55,7 +55,7 @@ export default function RegisterForm() {
       </div>
 
       {/* Enhanced glass morphism effect */}
-      <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl transform transition-all duration-500 hover:shadow-yellow-400/20 hover:scale-[1.02] hover:bg-white/10">
+      <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 p-6 sm:p-8  transform transition-all duration-500 hover:shadow-yellow-400/20 hover:bg-white/10 bg-gradient-to-br from-slate-900 via-yellow-900 to-slate-900 rounded-3xl shadow-2xl overflow-hidden">
         {/* Enhanced header with icon */}
         <div className="text-center mb-6 sm:mb-8">
           <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-yellow-500 to-yellow-500 rounded-2xl flex items-center justify-center shadow-lg">
@@ -82,7 +82,7 @@ export default function RegisterForm() {
         )}
 
         {/* Enhanced form */}
-        <form className="space-y-4 sm:space-y-5" onSubmit={handleSubmit}>
+        <form className="space-y-4 sm:space-y-5 " onSubmit={handleSubmit}>
           {/* Enhanced name field */}
           <div className="space-y-2">
             <label htmlFor="name" className="block text-sm font-medium text-yellow-400">
