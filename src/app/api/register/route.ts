@@ -37,12 +37,12 @@ export async function POST(request: Request) {
 
     try {
       await inngest.send({
-        name:"api/email.send-email",
-        data:{
+        name: "api/email.send-email",
+        data: {
           name,
-          email
-        }
-      })
+          email,
+        },
+      });
     } catch (error) {
       console.error("Errore nell'invio dell'email:", error);
     }
