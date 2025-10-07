@@ -26,12 +26,18 @@ export async function middleware(request: NextRequest) {
     console.warn("Token JWT non valido o scaduto:", error);
     // Cancella il cookie se corrotto/scaduto
     const response = NextResponse.redirect(new URL("/login", request.url));
-    response.cookies.delete("token");
+    response.cookies.set("token", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 0,
+      path: "/",
+    });
     return response;
   }
 }
 
 // Specifica le rotte protette
 export const config = {
-  matcher: ["/alert/:path*", "/api/alert/:path*"],
+  matcher: ["/alerts/:path*", "/api/alerts/:path*"],
 };
