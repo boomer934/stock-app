@@ -1,9 +1,12 @@
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 export default function Footer() {
+ 
   return (
-    <footer className="absolute bottom-0 left-0 right-0 flex flex-col sm:flex-row gap-4 sm:gap-8 justify-start items-start p-4 sm:p-6 text-yellow-400 border-t border-yellow-400/30 mx-2 sm:mx-4 backdrop-blur-sm">
+    <footer
+    className="relative flex flex-col sm:flex-row gap-4 sm:gap-8 justify-start items-start p-4 sm:p-6 text-yellow-400 border-t border-yellow-400/30 mx-2 sm:mx-4 backdrop-blur-sm">
       <Image
         src="/logo-nobg.png"
         alt="Signals"
@@ -19,7 +22,7 @@ export default function Footer() {
             <Link href="/">Home</Link>
           </li>
           <li className="cursor-pointer hover:text-yellow-400 transition-colors">
-            <Link href="/alert">Alert</Link>
+            <Link href="/alerts">Alerts</Link>
           </li>
           <li className="cursor-pointer hover:text-yellow-400 transition-colors">
             <Link href="/market">Market</Link>

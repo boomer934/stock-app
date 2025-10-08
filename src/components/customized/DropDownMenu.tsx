@@ -28,13 +28,13 @@ export default function DropDownMenu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="border-none outline-none bg-gray-700 text-yellow-400 mr-2 sm:mr-4 min-w-[120px]">
-        <DropdownMenuItem className="text-right text-sm hover:bg-gray-600 cursor-pointer">
+        <DropdownMenuItem className="text-right text-sm hover:bg-gray-600 cursor-pointer" asChild>
           <Link href="/alerts">Alerts</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-right text-sm hover:bg-gray-600 cursor-pointer">
+        <DropdownMenuItem className="text-right text-sm hover:bg-gray-600 cursor-pointer" asChild>
           <Link href="/profile">Profile</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-right text-sm hover:bg-gray-600 cursor-pointer">
+        <DropdownMenuItem className="text-right text-sm hover:bg-gray-600 cursor-pointer" asChild>
           {user ? (
             <button onClick={handleLogoutClick}>
               Logout
