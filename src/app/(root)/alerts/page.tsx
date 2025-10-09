@@ -10,7 +10,7 @@ import {
 } from "@/components/functions/alertFunctions";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { useQueryClient } from "@tanstack/react-query";
-import "./style.css"
+import "./style.css";
 export default function Alerts() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const queryClient = useQueryClient();
