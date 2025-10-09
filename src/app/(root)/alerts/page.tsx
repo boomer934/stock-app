@@ -70,7 +70,7 @@ export default function Alerts() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="animate-fade-in-up stagger-1">
               <label className="block text-yellow-400/70 text-sm font-medium mb-2">
-                Nome
+                Name
               </label>
               <input
                 type="text"
@@ -98,7 +98,7 @@ export default function Alerts() {
             </div>
             <div className="md:col-span-2 animate-fade-in-up stagger-3">
               <label className="block text-yellow-400/70 text-sm font-medium mb-2">
-                Descrizione
+                Description
               </label>
               <textarea
                 value={newAlert.description}
