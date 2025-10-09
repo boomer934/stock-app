@@ -27,8 +27,8 @@ export type Alert = {
 };
 
 export type ToggleAlertParams = {
-  newFields: {description: string; target: string};
-  setNewFields: React.Dispatch<React.SetStateAction<{description: string; target: string}>>;
+  newFields: {description: string; target: string; isTriggered: boolean};
+  setNewFields: React.Dispatch<React.SetStateAction<{description: string; target: string; isTriggered: boolean}>>;
   alert: Alert;
   setToggleTarget: React.Dispatch<React.SetStateAction<{[id: string]: boolean}>>;
 }
