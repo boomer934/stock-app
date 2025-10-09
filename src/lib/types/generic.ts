@@ -32,3 +32,12 @@ export type ToggleAlertParams = {
   alert: Alert;
   setToggleTarget: React.Dispatch<React.SetStateAction<{[id: string]: boolean}>>;
 }
+
+export type Activity = {
+  type: string;
+  message: string;
+  time: string;
+  triggered: boolean;
+  color: string;
+};
+  
