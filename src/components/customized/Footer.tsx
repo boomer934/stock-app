@@ -25,7 +25,7 @@ export default function Footer() {
             <Link href="/alerts">Alerts</Link>
           </li>
           <li className="cursor-pointer hover:text-yellow-400 transition-colors">
-            <Link href="/market">Market</Link>
+            <Link href="/profile">Profile</Link>
           </li>
         </ul>
       </div>
