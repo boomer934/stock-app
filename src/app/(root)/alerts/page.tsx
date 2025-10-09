@@ -71,7 +71,7 @@ export default function Alerts() {
             Create New Alert
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="animate-fade-in-up stagger-1">
+            <div className="animate-fade-in-up stagger-1 relative" style={{ zIndex: 100 }}>
               <label className="block text-yellow-400/70 text-sm font-medium mb-2">
                 Stock Symbol
               </label>
