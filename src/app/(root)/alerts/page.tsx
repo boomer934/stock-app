@@ -11,6 +11,7 @@ import {
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { useQueryClient } from "@tanstack/react-query";
 import "./style.css";
+import SymbolAutocomplete from "@/components/customized/SymbolAutocomplete";
 export default function Alerts() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const queryClient = useQueryClient();
@@ -29,6 +30,8 @@ export default function Alerts() {
     target: "",
     isTriggered: false,
   });
+  const [searchSymbol, setSearchSymbol] = useState("");
+  const [filteredSymbols, setFilteredSymbols] = useState<[]>([]);
   const ref = useRef<HTMLButtonElement>(null);
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
   const {
@@ -62,7 +65,7 @@ export default function Alerts() {
 
       {/* Add Alert Form */}
       {showAddForm && (
-        <div className="bg-gray-900/50 border border-yellow-400/30 rounded-lg p-6 backdrop-blur-sm animate-scale-in animate-shimmer">
+        <div className="bg-gray-900/50 border border-yellow-400/30 rounded-lg p-6 animate-scale-in animate-shimmer">
           <h2 className="text-xl font-semibold text-yellow-400 mb-4 flex items-center gap-2">
             <span className="text-2xl">✨</span>
             Create New Alert
@@ -70,21 +73,27 @@ export default function Alerts() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="animate-fade-in-up stagger-1">
               <label className="block text-yellow-400/70 text-sm font-medium mb-2">
-                Name
+                Stock Symbol
               </label>
-              <input
-                type="text"
-                value={newAlert.name}
-                onChange={(e) =>
-                  setNewAlert({ ...newAlert, name: e.target.value })
-                }
-                className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-3 py-2 text-yellow-400 focus:outline-none focus:border-yellow-400 input-focus"
-                placeholder="Alert name"
+              <SymbolAutocomplete
+                value={searchSymbol}
+                onChange={setSearchSymbol}
+                onSymbolSelect={(symbol) => {
+                  setNewAlert({ ...newAlert, name: symbol });
+                  setSearchSymbol(symbol);
+                }}
+                placeholder="Type a symbol"
+                className="mb-2"
               />
+              {searchSymbol && (
+                <p className="text-xs text-yellow-400/60">
+                  Selected: <span className="font-medium text-yellow-400">{newAlert.name || "None"}</span>
+                </p>
+              )}
             </div>
-            <div className="animate-fade-in-up stagger-2">
+            <div className="animate-fade-in-up stagger-3">
               <label className="block text-yellow-400/70 text-sm font-medium mb-2">
-                Target
+                Target Price
               </label>
               <input
                 type="text"
@@ -93,10 +102,10 @@ export default function Alerts() {
                   setNewAlert({ ...newAlert, target: e.target.value })
                 }
                 className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-3 py-2 text-yellow-400 focus:outline-none focus:border-yellow-400 input-focus"
-                placeholder="Target value"
+                placeholder="Target price (e.g., 150.00)"
               />
             </div>
-            <div className="md:col-span-2 animate-fade-in-up stagger-3">
+            <div className="animate-fade-in-up stagger-4">
               <label className="block text-yellow-400/70 text-sm font-medium mb-2">
                 Description
               </label>
@@ -106,13 +115,22 @@ export default function Alerts() {
                   setNewAlert({ ...newAlert, description: e.target.value })
                 }
                 className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-3 py-2 text-yellow-400 focus:outline-none focus:border-yellow-400 h-20 resize-none input-focus"
-                placeholder="Alert description"
+                placeholder="Alert description (optional)"
               />
             </div>
           </div>
           <div className="flex justify-end mt-4 space-x-3">
             <button
-              onClick={() => setShowAddForm(false)}
+              onClick={() => {
+                setShowAddForm(false);
+                setSearchSymbol("");
+                setNewAlert({
+                  name: "",
+                  description: "",
+                  target: "",
+                  isTriggered: false,
+                });
+              }}
               className="px-4 py-2 text-yellow-400/70 hover:text-yellow-400 transition-all button-press hover:bg-yellow-400/10 rounded-lg"
             >
               Cancel
@@ -179,20 +197,19 @@ export default function Alerts() {
                 )}
               </div>
               <div className="flex space-x-2">
-                {!isTriggered && (
+                {!toggleTarget[alert.id] && (
                   <button
                     onClick={() => {
-                      setIsTriggered((prev) => !prev);
+                      setToggleTarget((prev) => ({
+                        ...prev,
+                        [alert.id]: !prev[alert.id],
+                      }));
                       setNewFields({
                         ...newFields,
                         target: alert.target,
                         description: alert.description,
                         isTriggered: alert.isTriggered,
                       });
-                      setToggleTarget((prev) => ({
-                        ...prev,
-                        [alert.id]: !prev[alert.id],
-                      }));
                     }}
                     className="text-yellow-400/70 hover:text-yellow-400 transition-all button-press hover:bg-yellow-400/10 p-2 rounded-lg"
                     title={alert.isTriggered ? "Edit alert" : "Edit alert"}

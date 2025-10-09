@@ -1,0 +1,366 @@
+"use client";
+import React, { useState, useEffect } from 'react';
+import { useUser } from '@clerk/nextjs';
+import { UserIcon, CogIcon, ChartBarIcon, BellIcon, ShieldCheckIcon, CreditCardIcon } from '@heroicons/react/24/outline';
+
+interface UserStats {
+  totalAlerts: number;
+  activeAlerts: number;
+  triggeredAlerts: number;
+  portfolioValue: string;
+  monthlyGain: string;
+  joinDate: string;
+}
+
+export default function ProfilePage() {
+  const { user, isLoaded } = useUser();
+  const [activeTab, setActiveTab] = useState('overview');
+  const [userStats, setUserStats] = useState<UserStats>({
+    totalAlerts: 0,
+    activeAlerts: 0,
+    triggeredAlerts: 0,
+    portfolioValue: "€0.00",
+    monthlyGain: "+0.00%",
+    joinDate: new Date().toLocaleDateString()
+  });
+
+  useEffect(() => {
+    // Simulate loading user stats
+    setTimeout(() => {
+      setUserStats({
+        totalAlerts: 12,
+        activeAlerts: 8,
+        triggeredAlerts: 4,
+        portfolioValue: "€25,430.50",
+        monthlyGain: "+12.34%",
+        joinDate: "January 2024"
+      });
+    }, 1000);
+  }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-400"></div>
+      </div>
+    );
+  }
+
+  const tabs = [
+    { id: 'overview', name: 'Overview', icon: ChartBarIcon },
+    { id: 'settings', name: 'Settings', icon: CogIcon },
+    { id: 'notifications', name: 'Notifications', icon: BellIcon },
+    { id: 'security', name: 'Security', icon: ShieldCheckIcon },
+    { id: 'billing', name: 'Billing', icon: CreditCardIcon },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="bg-gray-900/50 backdrop-blur-xl border border-yellow-400/30 rounded-2xl p-6 sm:p-8 mb-8 animate-fade-in-down">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
+            {/* Avatar & Basic Info */}
+            <div className="flex items-center gap-6">
+              <div className="relative group">
+                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 p-1 animate-pulse-slow">
+                  <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center overflow-hidden">
+                    {user?.imageUrl ? (
+                      <img 
+                        src={user.imageUrl} 
+                        alt="Profile" 
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                    ) : (
+                      <UserIcon className="w-12 h-12 text-yellow-400" />
+                    )}
+                  </div>
+                </div>
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-gray-900 animate-bounce-slow"></div>
+              </div>
+              
+              <div className="space-y-2">
+                <h1 className="text-3xl sm:text-4xl font-bold text-yellow-400 animate-fade-in-right">
+                  {user?.fullName || 'Welcome Back!'}
+                </h1>
+                <p className="text-yellow-400/70 text-lg animate-fade-in-right stagger-1">
+                  {user?.primaryEmailAddress?.emailAddress}
+                </p>
+                <div className="flex items-center gap-2 animate-fade-in-right stagger-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-green-400 font-medium">Active Trader</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="flex-1 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full lg:w-auto">
+              <div className="bg-gradient-to-br from-yellow-400/10 to-yellow-600/5 border border-yellow-400/20 rounded-xl p-4 text-center animate-scale-in stagger-1">
+                <div className="text-2xl font-bold text-yellow-400">{userStats.totalAlerts}</div>
+                <div className="text-xs text-yellow-400/70">Total Alerts</div>
+              </div>
+              <div className="bg-gradient-to-br from-green-400/10 to-green-600/5 border border-green-400/20 rounded-xl p-4 text-center animate-scale-in stagger-2">
+                <div className="text-2xl font-bold text-green-400">{userStats.activeAlerts}</div>
+                <div className="text-xs text-green-400/70">Active</div>
+              </div>
+              <div className="bg-gradient-to-br from-red-400/10 to-red-600/5 border border-red-400/20 rounded-xl p-4 text-center animate-scale-in stagger-3">
+                <div className="text-2xl font-bold text-red-400">{userStats.triggeredAlerts}</div>
+                <div className="text-xs text-red-400/70">Triggered</div>
+              </div>
+              <div className="bg-gradient-to-br from-blue-400/10 to-blue-600/5 border border-blue-400/20 rounded-xl p-4 text-center animate-scale-in stagger-4">
+                <div className="text-2xl font-bold text-blue-400">{userStats.monthlyGain}</div>
+                <div className="text-xs text-blue-400/70">Monthly</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="bg-gray-900/30 backdrop-blur-xl border border-yellow-400/20 rounded-2xl p-2 mb-8 animate-fade-in-up">
+          <div className="flex flex-wrap gap-2">
+            {tabs.map((tab, index) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-300 animate-slide-in-right ${
+                    activeTab === tab.id
+                      ? 'bg-yellow-400 text-black shadow-lg shadow-yellow-400/30'
+                      : 'text-yellow-400 hover:bg-yellow-400/10 hover:text-yellow-300'
+                  }`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span className="hidden sm:inline">{tab.name}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="bg-gray-900/50 backdrop-blur-xl border border-yellow-400/30 rounded-2xl p-6 sm:p-8 animate-fade-in-up">
+          {activeTab === 'overview' && (
+            <div className="space-y-8">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-6 animate-fade-in-down">
+                📊 Portfolio Overview
+              </h2>
+              
+              {/* Portfolio Value */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="bg-gradient-to-br from-yellow-400/10 to-yellow-600/5 border border-yellow-400/30 rounded-xl p-6 animate-scale-in">
+                  <h3 className="text-lg font-semibold text-yellow-400 mb-4">💰 Portfolio Value</h3>
+                  <div className="text-4xl font-bold text-yellow-400 mb-2">{userStats.portfolioValue}</div>
+                  <div className="text-green-400 font-medium">{userStats.monthlyGain} this month</div>
+                </div>
+                
+                <div className="bg-gradient-to-br from-blue-400/10 to-blue-600/5 border border-blue-400/30 rounded-xl p-6 animate-scale-in stagger-1">
+                  <h3 className="text-lg font-semibold text-blue-400 mb-4">📈 Performance</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-blue-400/70">Today</span>
+                      <span className="text-green-400 font-medium">+2.45%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-blue-400/70">This Week</span>
+                      <span className="text-green-400 font-medium">+8.12%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-blue-400/70">This Month</span>
+                      <span className="text-green-400 font-medium">{userStats.monthlyGain}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Recent Activity */}
+              <div className="animate-fade-in-up stagger-2">
+                <h3 className="text-xl font-semibold text-yellow-400 mb-4">🔔 Recent Activity</h3>
+                <div className="space-y-3">
+                  {[
+                    { type: 'alert', message: 'AAPL reached target price of $150.00', time: '2 hours ago', color: 'green' },
+                    { type: 'alert', message: 'TSLA alert created for $200.00', time: '5 hours ago', color: 'blue' },
+                    { type: 'alert', message: 'MSFT alert triggered at $300.00', time: '1 day ago', color: 'red' },
+                  ].map((activity, index) => (
+                    <div 
+                      key={index}
+                      className="flex items-center gap-4 p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg hover:bg-gray-800/70 transition-all duration-300 animate-slide-in-left"
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      <div className={`w-3 h-3 rounded-full bg-${activity.color}-400 animate-pulse`}></div>
+                      <div className="flex-1">
+                        <p className="text-yellow-400/90">{activity.message}</p>
+                        <p className="text-yellow-400/50 text-sm">{activity.time}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'settings' && (
+            <div className="space-y-6 animate-fade-in-up">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-6">⚙️ Account Settings</h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="animate-slide-in-left">
+                    <label className="block text-yellow-400/70 text-sm font-medium mb-2">Display Name</label>
+                    <input 
+                      type="text" 
+                      value={user?.fullName || ''} 
+                      className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-4 py-3 text-yellow-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all"
+                      readOnly
+                    />
+                  </div>
+                  
+                  <div className="animate-slide-in-left stagger-1">
+                    <label className="block text-yellow-400/70 text-sm font-medium mb-2">Email Address</label>
+                    <input 
+                      type="email" 
+                      value={user?.primaryEmailAddress?.emailAddress || ''} 
+                      className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-4 py-3 text-yellow-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all"
+                      readOnly
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="animate-slide-in-right">
+                    <label className="block text-yellow-400/70 text-sm font-medium mb-2">Timezone</label>
+                    <select className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-4 py-3 text-yellow-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all">
+                      <option>Europe/Rome (GMT+1)</option>
+                      <option>America/New_York (GMT-5)</option>
+                      <option>Asia/Tokyo (GMT+9)</option>
+                    </select>
+                  </div>
+                  
+                  <div className="animate-slide-in-right stagger-1">
+                    <label className="block text-yellow-400/70 text-sm font-medium mb-2">Language</label>
+                    <select className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-4 py-3 text-yellow-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all">
+                      <option>English</option>
+                      <option>Italiano</option>
+                      <option>Español</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'notifications' && (
+            <div className="space-y-6 animate-fade-in-up">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-6">🔔 Notification Preferences</h2>
+              
+              <div className="space-y-4">
+                {[
+                  { title: 'Email Notifications', description: 'Receive alerts via email when targets are reached' },
+                  { title: 'Push Notifications', description: 'Get instant notifications on your device' },
+                  { title: 'SMS Alerts', description: 'Receive critical alerts via SMS' },
+                  { title: 'Weekly Reports', description: 'Get weekly portfolio performance reports' },
+                ].map((item, index) => (
+                  <div 
+                    key={index}
+                    className="flex items-center justify-between p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-slide-in-left"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <div>
+                      <h3 className="text-yellow-400 font-medium">{item.title}</h3>
+                      <p className="text-yellow-400/60 text-sm">{item.description}</p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" className="sr-only peer" defaultChecked />
+                      <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-400"></div>
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'security' && (
+            <div className="space-y-6 animate-fade-in-up">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-6">🔒 Security Settings</h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="p-4 bg-green-900/20 border border-green-400/30 rounded-lg animate-scale-in">
+                    <h3 className="text-green-400 font-medium mb-2">✅ Two-Factor Authentication</h3>
+                    <p className="text-green-400/70 text-sm">Your account is protected with 2FA</p>
+                  </div>
+                  
+                  <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-scale-in stagger-1">
+                    <h3 className="text-yellow-400 font-medium mb-2">🔑 Password</h3>
+                    <p className="text-yellow-400/70 text-sm mb-3">Last changed 30 days ago</p>
+                    <button className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-medium hover:bg-yellow-300 transition-all button-press">
+                      Change Password
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-scale-in stagger-2">
+                    <h3 className="text-yellow-400 font-medium mb-2">📱 Active Sessions</h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-yellow-400/70 text-sm">Current Device</span>
+                        <span className="text-green-400 text-sm">Active</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-yellow-400/70 text-sm">iPhone 14</span>
+                        <button className="text-red-400 text-sm hover:text-red-300">Revoke</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'billing' && (
+            <div className="space-y-6 animate-fade-in-up">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-6">💳 Billing & Subscription</h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="p-6 bg-gradient-to-br from-yellow-400/10 to-yellow-600/5 border border-yellow-400/30 rounded-xl animate-scale-in">
+                  <h3 className="text-yellow-400 font-bold text-xl mb-2">Pro Plan</h3>
+                  <p className="text-yellow-400/70 mb-4">Unlimited alerts and premium features</p>
+                  <div className="text-3xl font-bold text-yellow-400 mb-4">€9.99<span className="text-lg font-normal">/month</span></div>
+                  <button className="w-full bg-yellow-400 text-black py-3 rounded-lg font-medium hover:bg-yellow-300 transition-all button-press">
+                    Manage Subscription
+                  </button>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-slide-in-right">
+                    <h3 className="text-yellow-400 font-medium mb-2">💳 Payment Method</h3>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-6 bg-blue-500 rounded flex items-center justify-center text-white text-xs font-bold">VISA</div>
+                      <span className="text-yellow-400/70">•••• •••• •••• 1234</span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-slide-in-right stagger-1">
+                    <h3 className="text-yellow-400 font-medium mb-2">📄 Billing History</h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-yellow-400/70">Dec 2024</span>
+                        <span className="text-yellow-400">€9.99</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-yellow-400/70">Nov 2024</span>
+                        <span className="text-yellow-400">€9.99</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
