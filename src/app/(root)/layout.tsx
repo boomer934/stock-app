@@ -12,6 +12,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Stock Market App",
   description: "Real-time stock market data and analysis",
+  icons: {
+    icon: "/logo.png"
+  },
 };
 
 export default function RootLayout({
