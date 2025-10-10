@@ -1,6 +1,6 @@
 import { serve } from "inngest/next";
 import { inngest } from "../../../inngest/client";
-import { sendEmail, setAlert } from "../../../inngest/functions";
+import { sendEmail, setAlert, sendVerifyEmail } from "../../../inngest/functions";
 
 // Create an API that serves zero functions
 export const { GET, POST, PUT } = serve({
@@ -8,5 +8,6 @@ export const { GET, POST, PUT } = serve({
   functions: [
     sendEmail,
     setAlert,
+    sendVerifyEmail,
   ],
 });

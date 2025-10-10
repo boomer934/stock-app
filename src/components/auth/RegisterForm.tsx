@@ -1,16 +1,31 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { registerSchema } from "@/lib/validation/auth";
+import { Toaster } from "sonner";
+import Cookies from "js-cookie";
 
 export default function RegisterForm() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
+  const [showToast, setShowToast] = React.useState(false)
+  const [cookie, setCookie] = React.useState<string | null>(null)
 
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+      const cookie = Cookies.get("verified_email")
+      if(cookie === "true"){
+        setCookie(cookie)
+        clearInterval(interval)
+        router.push("/login")
+      }
+    },500)
+    return ()=>clearInterval(interval)
+  },[])
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -33,9 +48,38 @@ export default function RegisterForm() {
 
     try {
       setLoading(true);
-      await axios.post("/api/register", parsed.data);
-      form.reset();
-      router.push("/login");
+      const response = await axios.post("/api/email-verification", {email:parsed.data.email,verified:false})
+      if(response.status !== 200){
+        setError(response.data.error)
+        return
+      }
+      if(response.data.verified === "pending"){
+        setShowToast(true)
+        // Aspetta che il cookie venga impostato dopo la verifica email
+        const checkVerification = setInterval(async () => {
+          const verifiedCookie = Cookies.get("verified_email");
+          if(verifiedCookie === "true"){
+            clearInterval(checkVerification);
+            try {
+              const userResponse = await axios.post("/api/user", parsed.data);
+              if(userResponse.status === 201){
+                form.reset();
+                router.push("/login");
+              } else {
+                setError(userResponse.data.error);
+              }
+            } catch (userError) {
+              console.error("Errore creazione utente:", userError);
+              setError("Errore durante la creazione dell'account");
+            }
+          }
+        }, 1000);
+        
+        // Cleanup dopo 5 minuti
+        setTimeout(() => {
+          clearInterval(checkVerification);
+        }, 300000);
+      }
     } catch (err) {
       console.error("Errore durante la registrazione:", err);
     } finally {
@@ -44,6 +88,8 @@ export default function RegisterForm() {
   };
 
   return (
+    <>
+    {showToast && <Toaster/>}
     <div className="relative w-full max-w-lg mx-auto">
       {/* Animated background with floating elements */}
       <div className="absolute inset-0 rounded-3xl shadow-2xl overflow-hidden">
@@ -252,5 +298,6 @@ export default function RegisterForm() {
         </div>
       </div>
     </div>
+    </>
   );
 }

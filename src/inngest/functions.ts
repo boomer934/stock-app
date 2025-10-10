@@ -1,5 +1,6 @@
 import nodemailer, { Transporter } from "nodemailer";
 import { inngest } from "./client";
+import { getAccessToken } from "@/../Oauth";
 export const sendEmail = inngest.createFunction(
   { id: "send-email" },
   { event: "api/email.send-email" },
@@ -17,7 +18,7 @@ export const sendEmail = inngest.createFunction(
         throw new Error(`Missing required environment variable: ${varName}`);
       }
     }
-
+    const accessToken = await getAccessToken();
     const transporter: Transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -26,6 +27,7 @@ export const sendEmail = inngest.createFunction(
         clientId: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
         refreshToken: process.env.REFRESH_TOKEN,
+        accessToken,
       },
     });
     const mailOptions = {
@@ -123,7 +125,8 @@ export const setAlert = inngest.createFunction(
               );
             }
           }
-
+          
+          const accessToken = await getAccessToken();
           const transporter: Transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -132,6 +135,7 @@ export const setAlert = inngest.createFunction(
               clientId: process.env.CLIENT_ID,
               clientSecret: process.env.CLIENT_SECRET,
               refreshToken: process.env.REFRESH_TOKEN,
+              accessToken,
             },
           });
 
@@ -245,3 +249,39 @@ export const setAlert = inngest.createFunction(
     return { success: true };
   }
 );
+
+export const sendVerifyEmail = inngest.createFunction(
+  {id:"send-verify-email"},
+  {event:"api/verify-email.send-email"},
+  async ({event,step}) => {
+    const {email,link} = event.data
+    const accessToken = await getAccessToken();
+    const transporter:Transporter = nodemailer.createTransport({
+      service:"gmail",
+      auth:{
+        type:"OAuth2",
+        user:process.env.EMAIL,
+        clientId:process.env.CLIENT_ID,
+        clientSecret:process.env.CLIENT_SECRET,
+        refreshToken:process.env.REFRESH_TOKEN,
+        accessToken,
+      }
+    })
+    const mailOptions = {
+      from:`"Trading Alerts" <${process.env.EMAIL}>`,
+      to:email,
+      subject:"Verifica email per Stock Alerts",
+      html:`
+      <h2>Verifica email per Stock Alerts</h2>
+      <p>Per completare la registrazione, clicca sul link di verifica:</p>
+      <a href=${link}>Verifica email</a>
+      `
+    }
+    await step.run("send-verify-email",async () => {
+      const info = await transporter.sendMail(mailOptions)
+      console.log("Email inviata con successo a:",email,"ID messaggio:",info.messageId)
+      return {messageId:info.messageId}
+    })
+    return {success:true}
+  }
+)

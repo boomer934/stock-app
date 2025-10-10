@@ -7,6 +7,7 @@ import {
   BellIcon,
   ShieldCheckIcon,
   CreditCardIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useUserContext } from "@/components/contextProvider/AppProvider";
 import { useQuery } from "@tanstack/react-query";
@@ -35,7 +36,7 @@ export default function ProfilePage() {
     joinDate: new Date().toLocaleDateString(),
   });
   const [activities, setActivities] = useState<Activity[]>([]);
-
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const { data, isLoading, error } = useQuery({
     queryKey: ["alerts"],
     queryFn: () => getAllAlerts(),
@@ -56,10 +57,8 @@ export default function ProfilePage() {
 
   const tabs = [
     { id: "overview", name: "Overview", icon: ChartBarIcon },
-    { id: "settings", name: "Settings", icon: CogIcon },
-    { id: "notifications", name: "Notifications", icon: BellIcon },
+    { id: "info", name: "Account info", icon: InformationCircleIcon },
     { id: "security", name: "Security", icon: ShieldCheckIcon },
-    { id: "billing", name: "Billing", icon: CreditCardIcon },
   ];
 
   return (
@@ -103,13 +102,19 @@ export default function ProfilePage() {
               </div>
               <div className="bg-gradient-to-br from-green-400/10 to-green-600/5 border border-green-400/20 rounded-xl p-4 text-center animate-scale-in stagger-2">
                 <div className="text-2xl font-bold text-green-400">
-                  {data?.alerts?.filter((alert: Alert) => !alert.isTriggered).length}
+                  {
+                    data?.alerts?.filter((alert: Alert) => !alert.isTriggered)
+                      .length
+                  }
                 </div>
                 <div className="text-xs text-green-400/70">Active</div>
               </div>
               <div className="bg-gradient-to-br from-red-400/10 to-red-600/5 border border-red-400/20 rounded-xl p-4 text-center animate-scale-in stagger-3">
                 <div className="text-2xl font-bold text-red-400">
-                  {data?.alerts?.filter((alert: Alert) => alert.isTriggered).length}
+                  {
+                    data?.alerts?.filter((alert: Alert) => alert.isTriggered)
+                      .length
+                  }
                 </div>
                 <div className="text-xs text-red-400/70">Triggered</div>
               </div>
@@ -137,7 +142,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="bg-gray-900/30 backdrop-blur-xl border border-yellow-400/20 rounded-2xl p-2 mb-8 animate-fade-in-up">
+        <div className="bg-gray-900/30 backdrop-blur-xl border border-yellow-400/20 rounded-2xl p-2 mb-8 animate-fade-in-up flex justify-center">
           <div className="flex flex-wrap gap-2">
             {tabs.map((tab, index) => {
               const Icon = tab.icon;
@@ -182,33 +187,22 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {activeTab === "settings" && (
+          {activeTab === "info" && (
             <div className="space-y-6 animate-fade-in-up">
-              <h2 className="text-2xl font-bold text-yellow-400 mb-6">
-                ⚙️ Account Settings
+              <h2 className="flex  gap-2 text-2xl font-bold text-yellow-400 mb-6">
+                <InformationCircleIcon className="w-5 h-5" /> Account
+                Information
               </h2>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <div className="animate-slide-in-left">
-                    <label className="block text-yellow-400/70 text-sm font-medium mb-2">
-                      Display Name
-                    </label>
-                    <input
-                      type="text"
-                      value={"name"}
-                      className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-4 py-3 text-yellow-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all"
-                      readOnly
-                    />
-                  </div>
-
                   <div className="animate-slide-in-left stagger-1">
                     <label className="block text-yellow-400/70 text-sm font-medium mb-2">
                       Email Address
                     </label>
                     <input
                       type="email"
-                      value={"email"}
+                      value={user?.email || ""}
                       className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-4 py-3 text-yellow-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all"
                       readOnly
                     />
@@ -216,81 +210,18 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="animate-slide-in-right">
-                    <label className="block text-yellow-400/70 text-sm font-medium mb-2">
-                      Timezone
-                    </label>
-                    <select className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-4 py-3 text-yellow-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all">
-                      <option>Europe/Rome (GMT+1)</option>
-                      <option>America/New_York (GMT-5)</option>
-                      <option>Asia/Tokyo (GMT+9)</option>
-                    </select>
-                  </div>
-
                   <div className="animate-slide-in-right stagger-1">
                     <label className="block text-yellow-400/70 text-sm font-medium mb-2">
-                      Language
+                      Password
                     </label>
-                    <select className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-4 py-3 text-yellow-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all">
-                      <option>English</option>
-                      <option>Italiano</option>
-                      <option>Español</option>
-                    </select>
+                    <input
+                      type="password"
+                      value={"passwordsdadsada"}
+                      className="w-full bg-gray-800 border border-yellow-400/30 rounded-lg px-4 py-3 text-yellow-400 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all"
+                      readOnly
+                    />
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "notifications" && (
-            <div className="space-y-6 animate-fade-in-up">
-              <h2 className="text-2xl font-bold text-yellow-400 mb-6">
-                🔔 Notification Preferences
-              </h2>
-
-              <div className="space-y-4">
-                {[
-                  {
-                    title: "Email Notifications",
-                    description:
-                      "Receive alerts via email when targets are reached",
-                  },
-                  {
-                    title: "Push Notifications",
-                    description: "Get instant notifications on your device",
-                  },
-                  {
-                    title: "SMS Alerts",
-                    description: "Receive critical alerts via SMS",
-                  },
-                  {
-                    title: "Weekly Reports",
-                    description: "Get weekly portfolio performance reports",
-                  },
-                ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-slide-in-left"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div>
-                      <h3 className="text-yellow-400 font-medium">
-                        {item.title}
-                      </h3>
-                      <p className="text-yellow-400/60 text-sm">
-                        {item.description}
-                      </p>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="sr-only peer"
-                        defaultChecked
-                      />
-                      <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-400"></div>
-                    </label>
-                  </div>
-                ))}
               </div>
             </div>
           )}
@@ -303,15 +234,20 @@ export default function ProfilePage() {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <div className="p-4 bg-green-900/20 border border-green-400/30 rounded-lg animate-scale-in">
-                    <h3 className="text-green-400 font-medium mb-2">
-                      ✅ Two-Factor Authentication
+                  <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-scale-in stagger-1">
+                    <h3 className="text-yellow-400 font-medium mb-2">
+                      📧 Email
                     </h3>
-                    <p className="text-green-400/70 text-sm">
-                      Your account is protected with 2FA
+                    <p className="text-yellow-400/70 text-sm mb-3">
+                      Last changed 30 days ago
                     </p>
+                    <button className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-medium hover:bg-yellow-300 transition-all button-press">
+                      Change Email
+                    </button>
                   </div>
+                </div>
 
+                <div className="space-y-4">
                   <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-scale-in stagger-1">
                     <h3 className="text-yellow-400 font-medium mb-2">
                       🔑 Password
