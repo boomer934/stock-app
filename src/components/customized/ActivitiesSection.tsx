@@ -53,18 +53,23 @@ export default function ActivitiesSection({
               ></div>
               <div className="flex-1 ">
                 <p className="text-yellow-400/90">{activity.message}</p>
-                <p className="text-yellow-400/50 text-sm">
-                  {(() => {
-                    if (activity.diffDays > 0)
-                      return `${activity.diffDays} days ago`;
-                    if (activity.diffHours > 0)
-                      return `${activity.diffHours} hours ago`;
-                    if (activity.diffMinutes > 0)
-                      return `${activity.diffMinutes} minutes ago`;
-                    if (activity.diffSeconds > 0)
-                      return `${activity.diffSeconds} seconds ago`;
-                    return "Just now";
-                  })()}
+                <p className="text-yellow-400/50 text-sm flex flex-col">
+                  {activity.triggered
+                    ? `Triggered at ${activity.target}€ `
+                    : "Not triggered yet"}
+                  <span>
+                    {(() => {
+                      if (activity.diffDays > 0)
+                        return `${activity.diffDays} days ago`;
+                      if (activity.diffHours > 0)
+                        return `${activity.diffHours} hours ago`;
+                      if (activity.diffMinutes > 0)
+                        return `${activity.diffMinutes} minutes ago`;
+                      if (activity.diffSeconds > 0)
+                        return `${activity.diffSeconds} seconds ago`;
+                      return "Just now";
+                    })()}
+                  </span>
                 </p>
               </div>
             </div>

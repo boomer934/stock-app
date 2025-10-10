@@ -49,6 +49,7 @@ export default function ProfilePage() {
       time: new Date(alert.createdAt).getTime(),
       triggered: alert.isTriggered,
       color: alert.isTriggered === false ? "green" : "red",
+      target: alert.target,
     }));
     setActivities(newActivities);
   }, [data?.alerts]);
@@ -102,13 +103,13 @@ export default function ProfilePage() {
               </div>
               <div className="bg-gradient-to-br from-green-400/10 to-green-600/5 border border-green-400/20 rounded-xl p-4 text-center animate-scale-in stagger-2">
                 <div className="text-2xl font-bold text-green-400">
-                  {data?.alerts?.filter((alert) => alert.isTriggered).length}
+                  {data?.alerts?.filter((alert: Alert) => !alert.isTriggered).length}
                 </div>
                 <div className="text-xs text-green-400/70">Active</div>
               </div>
               <div className="bg-gradient-to-br from-red-400/10 to-red-600/5 border border-red-400/20 rounded-xl p-4 text-center animate-scale-in stagger-3">
                 <div className="text-2xl font-bold text-red-400">
-                  {data?.alerts?.filter((alert) => !alert.isTriggered).length}
+                  {data?.alerts?.filter((alert: Alert) => alert.isTriggered).length}
                 </div>
                 <div className="text-xs text-red-400/70">Triggered</div>
               </div>

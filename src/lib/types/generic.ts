@@ -39,5 +39,6 @@ export type Activity = {
   time: string | number;
   triggered: boolean;
   color: string;
+  target:number;
 };
   
