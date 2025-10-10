@@ -7,13 +7,15 @@ export default function Footer() {
   return (
     <footer
     className="relative flex flex-col sm:flex-row gap-4 sm:gap-8 justify-start items-start p-4 sm:p-6 text-yellow-400 border-t border-yellow-400/30 mx-2 sm:mx-4 backdrop-blur-sm">
-      <Image
-        src="/logo-nobg.png"
-        alt="Signals"
-        width={40}
-        height={40}
-        className="absolute top-4 right-4 sm:top-6 sm:right-6 sm:w-[50px] sm:h-[50px]"
-      ></Image>
+      <Link href="/">
+        <Image
+          src="/logo-nobg.png"
+          alt="Signals"
+          width={40}
+          height={40}
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 sm:w-[50px] sm:h-[50px]"
+        ></Image>
+      </Link>
       
       <div className="flex flex-col gap-2">
         <h3 className="font-semibold text-sm sm:text-base">Pages</h3>

@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/../prisma/singleton";
+import { toZonedTime, format } from "date-fns-tz";
 export async function GET(request: Request) {
   try {
     const cookiesStorage = await cookies();
@@ -20,7 +21,16 @@ export async function GET(request: Request) {
     });
     if (!alert)
       return NextResponse.json({ message: "Alert not found" }, { status: 404 });
-    return NextResponse.json({ alerts: alert }, { status: 200 });
+    const zonedAlerts = alert.map((a) => {
+      const romeTime = toZonedTime(a.createdAt, "Europe/Rome");
+      return {
+        ...a,
+        createdAt: format(romeTime, "yyyy-MM-dd'T'HH:mm:ssXXX", {
+          timeZone: "Europe/Rome",
+        }),
+      };
+    });
+    return NextResponse.json({ alerts: zonedAlerts }, { status: 200 });
   } catch (error) {
     console.error({ error: error });
     return NextResponse.json({ error: error }, { status: 500 });
@@ -82,7 +92,12 @@ export async function PUT(request: Request) {
       description,
       target,
       isTriggered,
-    }: { id: number; description?: string; target?: string; isTriggered?: boolean } = body;
+    }: {
+      id: number;
+      description?: string;
+      target?: string;
+      isTriggered?: boolean;
+    } = body;
     const cookiesStorage = await cookies();
     const token = cookiesStorage.get("token");
     if (!token) return NextResponse.json({ message: "No token found" });
@@ -127,4 +142,3 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: error }, { status: 500 });
   }
 }
-

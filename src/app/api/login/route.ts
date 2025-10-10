@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const token = jwt.sign({ id: user.id }, secret, { expiresIn: "5h" });
+    const token = jwt.sign({ id: user.id }, secret, { expiresIn: "24h" });
     const response = NextResponse.json(
       { message: "Login effettuato con successo", token, user},
       { status: 200 }
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 3600,
+      maxAge: 86400,
     });
     return response;
   } catch (error) {

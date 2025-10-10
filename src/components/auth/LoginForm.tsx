@@ -46,7 +46,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="relative flex flex-col justify-center items-center h-auto w-full max-w-md mx-auto">
+    <div className="relative w-[15vw]flex flex-col justify-center items-center h-auto w-full max-w-xl mx-auto">
       {/* Floating orbs */}
       <div className="absolute top-10 left-10 w-20 h-20 bg-yellow-400/20 rounded-full blur-xl animate-pulse"></div>
       <div className="absolute bottom-10 right-10 w-32 h-32 bg-yellow-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
@@ -63,9 +63,9 @@ export default function LoginForm() {
             </svg>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold mb-2 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent">
-            Bentornato!
+            Welcome Back!
           </h1>
-          <p className="text-gray-300 text-sm">Accedi al tuo account per continuare</p>
+          <p className="text-gray-300 text-sm">Sign in to your account to continue</p>
         </div>
 
         {/* Enhanced error message */}
@@ -97,7 +97,7 @@ export default function LoginForm() {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="mario@example.com"
+                placeholder="john@example.com"
                 className="w-full h-12 pl-10 pr-4 bg-white/5 border border-white/10 rounded-xl text-gray-100 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:outline-none focus:bg-white/10 transition-all duration-300 hover:bg-white/5"
                 required
               />
@@ -138,14 +138,14 @@ export default function LoginForm() {
               {loading ? (
                 <div className="flex items-center justify-center">
                   <div className="w-5 h-5 border-2 border-gray-900 border-t-transparent rounded-full animate-spin mr-2"></div>
-                  Accesso in corso...
+                  Signing in...
                 </div>
               ) : (
                 <div className="flex items-center justify-center">
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                   </svg>
-                  Accedi
+                  Sign In
                 </div>
               )}
             </span>
@@ -159,13 +159,13 @@ export default function LoginForm() {
               <div className="w-full border-t border-white/10"></div>
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="bg-transparent px-2 text-gray-400">oppure</span>
+              <span className="bg-transparent px-2 text-gray-400">or</span>
             </div>
           </div>
           <p className="text-sm text-gray-300 mt-4">
-            Non hai un account?{" "}
+            Don't have an account?{" "}
             <a href="/register" className="text-yellow-400 hover:text-yellow-300 transition-all duration-200 font-medium hover:underline">
-              Registrati ora
+              Register now
             </a>
           </p>
         </div>
