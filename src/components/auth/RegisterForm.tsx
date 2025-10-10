@@ -110,9 +110,9 @@ export default function RegisterForm() {
             </svg>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold mb-2 bg-gradient-to-r from-yellow-400 via-yellow-400 to-yellow-400 bg-clip-text text-transparent">
-            Crea il tuo Account
+            Create Your Account
           </h1>
-          <p className="text-gray-300 text-sm">Unisciti alla nostra community di investitori</p>
+          <p className="text-gray-300 text-sm">Join our community of investors</p>
         </div>
 
         {/* Enhanced error message */}
@@ -132,7 +132,7 @@ export default function RegisterForm() {
           {/* Enhanced name field */}
           <div className="space-y-2">
             <label htmlFor="name" className="block text-sm font-medium text-yellow-400">
-              Nome completo
+              Full Name
             </label>
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -144,7 +144,7 @@ export default function RegisterForm() {
                 id="name"
                 name="name"
                 type="text"
-                placeholder="Mario Rossi"
+                placeholder="John Doe"
                 className="w-full h-12 pl-10 pr-4 bg-white/5 border border-white/10 rounded-xl text-gray-100 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:outline-none focus:bg-white/10 transition-all duration-300 hover:bg-white/5"
                 required
               />
@@ -166,7 +166,7 @@ export default function RegisterForm() {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="mario@example.com"
+                placeholder="john@example.com"
                 className="w-full h-12 pl-10 pr-4 bg-white/5 border border-white/10 rounded-xl text-gray-100 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:outline-none focus:bg-white/10 transition-all duration-300 hover:bg-white/5"
                 required
               />
@@ -197,14 +197,14 @@ export default function RegisterForm() {
               <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              Minimo 8 caratteri
+              Minimum 8 characters
             </p>
           </div>
 
           {/* Enhanced nationality field */}
           <div className="space-y-2">
             <label htmlFor="nationality" className="block text-sm font-medium text-yellow-400">
-              Nazionalità
+              Nationality
             </label>
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -216,7 +216,7 @@ export default function RegisterForm() {
                 id="nationality"
                 name="nationality"
                 type="text"
-                placeholder="Italia"
+                placeholder="Italy"
                 className="w-full h-12 pl-10 pr-4 bg-white/5 border border-white/10 rounded-xl text-gray-100 placeholder-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:outline-none focus:bg-white/10 transition-all duration-300 hover:bg-white/5"
                 required
               />
@@ -226,7 +226,7 @@ export default function RegisterForm() {
           {/* Enhanced risk profile field */}
           <div className="space-y-2">
             <label htmlFor="risk" className="block text-sm font-medium text-yellow-400">
-              Profilo di rischio
+              Risk Profile
             </label>
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -241,9 +241,9 @@ export default function RegisterForm() {
                 defaultValue="LOW"
                 required
               >
-                <option value="LOW" className="bg-gray-800 text-gray-100">🟢 Basso - Investimenti conservativi</option>
-                <option value="MEDIUM" className="bg-gray-800 text-gray-100">🟡 Medio - Bilanciato</option>
-                <option value="HIGH" className="bg-gray-800 text-gray-100">🔴 Alto - Investimenti aggressivi</option>
+                <option value="LOW" className="bg-gray-800 text-gray-100">🟢 Low - Conservative investments</option>
+                <option value="MEDIUM" className="bg-gray-800 text-gray-100">🟡 Medium - Balanced</option>
+                <option value="HIGH" className="bg-gray-800 text-gray-100">🔴 High - Aggressive investments</option>
               </select>
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                 <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -265,14 +265,14 @@ export default function RegisterForm() {
               {loading ? (
                 <div className="flex items-center justify-center">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                  Registrazione in corso...
+                  Registration in progress...
                 </div>
               ) : (
                 <div className="flex items-center justify-center">
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                   </svg>
-                  Crea Account
+                  Create Account
                 </div>
               )}
             </span>
@@ -286,13 +286,13 @@ export default function RegisterForm() {
               <div className="w-full border-t border-white/10"></div>
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="bg-transparent px-2 text-gray-400">oppure</span>
+              <span className="bg-transparent px-2 text-gray-400">or</span>
             </div>
           </div>
           <p className="text-sm text-gray-300 mt-4">
-            Hai già un account?{" "}
+            Already have an account?{" "}
             <a href="/login" className="text-yellow-400 hover:text-yellow-300 transition-all duration-200 font-medium hover:underline">
-              Accedi ora
+              Sign in now
             </a>
           </p>
         </div>
