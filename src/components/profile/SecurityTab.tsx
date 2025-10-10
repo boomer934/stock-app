@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import ChangeEmail from "../customized/ChangeEmail";
+import ChangePassword from "../customized/ChangePassword";
 export default function SecurityTab() {
   const [showEmailChange, setShowEmailChange] = useState<boolean>(false);
+  const [showPasswordChange, setShowPasswordChange] = useState<boolean>(false);
   return (
     <div className="space-y-6 animate-fade-in-up">
       <h2 className="text-2xl font-bold text-yellow-400 mb-6">
@@ -10,7 +12,9 @@ export default function SecurityTab() {
       </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Colonna sinistra */}
         <div className="space-y-4">
+          {/* Sezione email */}
           <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-scale-in stagger-1">
             {showEmailChange ? (
               <ChangeEmail setShowEmailChangeAction={setShowEmailChange} />
@@ -21,9 +25,7 @@ export default function SecurityTab() {
                   Last changed 30 days ago
                 </p>
                 <button
-                  onClick={() => {
-                    setShowEmailChange(true);
-                  }}
+                  onClick={() => setShowEmailChange(true)}
                   className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-medium hover:bg-yellow-300 transition-all button-press"
                 >
                   Change Email
@@ -32,19 +34,34 @@ export default function SecurityTab() {
             )}
           </div>
 
-          <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-scale-in stagger-1">
-            <h3 className="text-yellow-400 font-medium mb-2">🔑 Password</h3>
-            <p className="text-yellow-400/70 text-sm mb-3">
-              Last changed 30 days ago
-            </p>
-            <button className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-medium hover:bg-yellow-300 transition-all button-press">
-              Change Password
-            </button>
+          {/* Sezione password */}
+          <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-scale-in stagger-2">
+            {showPasswordChange ? (
+              <ChangePassword
+                setShowPasswordChangeAction={setShowPasswordChange}
+              />
+            ) : (
+              <>
+                <h3 className="text-yellow-400 font-medium mb-2">
+                  🔑 Password
+                </h3>
+                <p className="text-yellow-400/70 text-sm mb-3">
+                  Last changed 30 days ago
+                </p>
+                <button
+                  onClick={() => setShowPasswordChange(true)}
+                  className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-medium hover:bg-yellow-300 transition-all button-press"
+                >
+                  Change Password
+                </button>
+              </>
+            )}
           </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-scale-in stagger-2">
+        {/* Colonna destra */}
+        {/* <div className="space-y-4">
+          <div className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-lg animate-scale-in stagger-3">
             <h3 className="text-yellow-400 font-medium mb-2">
               📱 Active Sessions
             </h3>
@@ -63,7 +80,7 @@ export default function SecurityTab() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

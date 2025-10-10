@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     console.log("Token generato per email:", email);
     
     const baseUrl = process.env.NODE_ENV === 'production' 
-      ? 'https://your-domain.com' 
+      ? 'https://stock-alerts.vercel.app' 
       : 'http://localhost:3000';
     
     const link = `${baseUrl}/api/verify?token=${encodeURIComponent(token)}`;
