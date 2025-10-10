@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/../prisma/singleton";
 import { cookies } from "next/headers";
-export async function DELETE(request: Request,{params}: {params: Promise<{id:number}>}) {
+export async function DELETE(request: Request,{params}: {params: Promise<{id:string}>}) {
     try {
       const {id} = await params
-      if(!id) return NextResponse.json({error:"no id found"},{status:400})
+      const idNumber = Number(id)
+      if(!idNumber) return NextResponse.json({error:"no id found"},{status:400})
       const cookiesStorage = await cookies();
       const token = cookiesStorage.get("token").value;
       if (!token) return NextResponse.json({ message: "No token found" });
@@ -22,7 +23,7 @@ export async function DELETE(request: Request,{params}: {params: Promise<{id:num
       if(!user) return NextResponse.json({error:"Unable to delete alert",motivation:"User not allowed"},{status:403})
       const alert = await prisma.alert.delete({
         where:{
-          id:Number(id),
+          id:idNumber,
         },
       })
       if(!alert) return NextResponse.json({error:"Unable to delete alert",motivation:"Alert not found"},{status:404})
