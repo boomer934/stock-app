@@ -6,12 +6,12 @@ export default function SecurityTab() {
   const [showEmailChange, setShowEmailChange] = useState<boolean>(false);
   const [showPasswordChange, setShowPasswordChange] = useState<boolean>(false);
   return (
-    <div className="space-y-6 animate-fade-in-up">
+    <div className="space-y-6 animate-fade-in-up ">
       <h2 className="text-2xl font-bold text-yellow-400 mb-6">
         🔒 Security Settings
       </h2>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         {/* Colonna sinistra */}
         <div className="space-y-4">
           {/* Sezione email */}
@@ -22,8 +22,8 @@ export default function SecurityTab() {
               <>
                 <h3 className="text-yellow-400 font-medium mb-2">📧 Email</h3>
                 <p className="text-yellow-400/70 text-sm mb-3">
-                  Last changed 30 days ago
-                </p>
+                💡 Fun fact: People send over 300 billion emails every day!
+                </p>              
                 <button
                   onClick={() => setShowEmailChange(true)}
                   className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-medium hover:bg-yellow-300 transition-all button-press"
@@ -46,7 +46,7 @@ export default function SecurityTab() {
                   🔑 Password
                 </h3>
                 <p className="text-yellow-400/70 text-sm mb-3">
-                  Last changed 30 days ago
+                💡 Fun fact: ‘123456’ is still the most common password!
                 </p>
                 <button
                   onClick={() => setShowPasswordChange(true)}
