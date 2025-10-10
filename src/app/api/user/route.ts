@@ -70,6 +70,12 @@ export async function POST(request: Request) {
         risk,
       },
     });
+    if (!user) {
+      return NextResponse.json(
+        { error: "Utente non creato" },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       { message: "Utente creato con successo", userId: user.id },
