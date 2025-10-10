@@ -4,10 +4,10 @@ import AdvancedChart from "@/components/customized/AdvancedChart";
 import CompanyProfile from "@/components/customized/CompanyProfile";
 import TechnicalAnalisys from "@/components/customized/TechnicalAnalisys";
 import FundamentalData from "@/components/customized/FoundamentalData";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function Assets() {
+function AssetsContent() {
   const searchParams = useSearchParams();
   const value = searchParams.get("value");
   const [refreshKey, setRefreshKey] = useState(0);
@@ -82,5 +82,20 @@ export default function Assets() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Assets() {
+  return (
+    <Suspense fallback={
+      <div className="w-full min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading assets...</p>
+        </div>
+      </div>
+    }>
+      <AssetsContent />
+    </Suspense>
   );
 }
