@@ -33,18 +33,18 @@ export const sendEmail = inngest.createFunction(
     const mailOptions = {
       from: `"Trading Alerts" <${process.env.EMAIL}>`,
       to: email,
-      subject: "Benvenuto nel tuo portale di Trading Alerts! 🚀",
+      subject: "Welcome to your Trading Alerts portal! 🚀",
       html: `
-        <h2>Ciao ${name}, benvenuto su Stock Alerts!</h2>
-          <p>Siamo felici che ti sia iscritto al nostro sito di trading. 🎉</p>
-          <p>Con Stock Alerts potrai:</p>
+        <h2>Hello ${name}, welcome to Stock Alerts!</h2>
+          <p>We're thrilled that you've joined our trading site. 🎉</p>
+          <p>With Stock Alerts you can:</p>
           <ul>
-            <li>Creare alert personalizzati sui tuoi asset preferiti</li>
-            <li>Ricevere notifiche immediate quando raggiungi i livelli che ti interessano</li>
-            <li>Monitorare il mercato senza effettuare operazioni di buy/sell direttamente dal portale</li>
+            <li>Create personalized alerts on your favorite assets</li>
+            <li>Receive immediate notifications when you reach the levels that interest you</li>
+            <li>Monitor the market without making buy/sell operations directly from the portal</li>
           </ul>
-          <p>Inizia subito a impostare i tuoi alert e resta sempre aggiornato!</p>
-          <p>Buon trading,<br><strong>Il team di Stock Alerts</strong></p>
+          <p>Start setting up your alerts right away and stay always updated!</p>
+          <p>Happy trading,<br><strong>The Stock Alerts team</strong></p>
         `,
     };
     await step.run("send-email", async () => {
@@ -125,7 +125,7 @@ export const setAlert = inngest.createFunction(
               );
             }
           }
-          
+
           const accessToken = await getAccessToken();
           const transporter: Transporter = nodemailer.createTransport({
             service: "gmail",
@@ -213,7 +213,7 @@ export const setAlert = inngest.createFunction(
 
                   <div style="background-color: #1f2937; padding: 20px; text-align: center;">
                     <p style="margin: 0; color: #d1d5db; font-size: 12px;">
-                      © 2024 Stock Alerts. Tutti i diritti riservati.
+                      © 2025 Stock Alerts. Tutti i diritti riservati.
                     </p>
                   </div>
                 </div>
@@ -251,37 +251,194 @@ export const setAlert = inngest.createFunction(
 );
 
 export const sendVerifyEmail = inngest.createFunction(
-  {id:"send-verify-email"},
-  {event:"api/verify-email.send-email"},
-  async ({event,step}) => {
-    const {email,link} = event.data
+  { id: "send-verify-email" },
+  { event: "api/verify-email.send-email" },
+  async ({ event, step }) => {
+    const { email, link } = event.data;
     const accessToken = await getAccessToken();
-    const transporter:Transporter = nodemailer.createTransport({
-      service:"gmail",
-      auth:{
-        type:"OAuth2",
-        user:process.env.EMAIL,
-        clientId:process.env.CLIENT_ID,
-        clientSecret:process.env.CLIENT_SECRET,
-        refreshToken:process.env.REFRESH_TOKEN,
+    const transporter: Transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: process.env.EMAIL,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
         accessToken,
-      }
-    })
+      },
+    });
+    const isProduction = process.env.NODE_ENV === "production";
+    const baseUrl = isProduction
+      ? process.env.NEXT_PUBLIC_BASE_URL // es: https://tuosito.com
+      : "http://localhost:3000";
+
+    const logoUrl = `${baseUrl}/logo-nobg.png`;
     const mailOptions = {
-      from:`"Trading Alerts" <${process.env.EMAIL}>`,
-      to:email,
-      subject:"Verifica email per Stock Alerts",
-      html:`
-      <h2>Verifica email per Stock Alerts</h2>
-      <p>Per completare la registrazione, clicca sul link di verifica:</p>
-      <a href=${link}>Verifica email</a>
-      `
-    }
-    await step.run("send-verify-email",async () => {
-      const info = await transporter.sendMail(mailOptions)
-      console.log("Email inviata con successo a:",email,"ID messaggio:",info.messageId)
-      return {messageId:info.messageId}
-    })
-    return {success:true}
+      from: `"Trading Alerts" <${process.env.EMAIL}>`,
+      to: email,
+      subject: "Verifica email per Stock Alerts",
+      html: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Verify Your Email - Stock Alerts</title>
+            <style>
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                    color: #e2e8f0;
+                }
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background: rgba(15, 23, 42, 0.95);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 20px;
+                    overflow: hidden;
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                }
+                .header {
+                    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+                    padding: 40px 20px;
+                    text-align: center;
+                    position: relative;
+                }
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="60" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="30" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+                    opacity: 0.3;
+                }
+                .title {
+                    font-size: 28px;
+                    font-weight: 700;
+                    margin: 0 0 10px 0;
+                    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                }
+                .subtitle {
+                    font-size: 16px;
+                    opacity: 0.9;
+                    margin: 0;
+                }
+                .content {
+                    padding: 40px 30px;
+                    text-align: center;
+                }
+                .welcome-text {
+                    font-size: 18px;
+                    color: #f1f5f9;
+                    margin-bottom: 30px;
+                    line-height: 1.6;
+                }
+                .verification-button {
+                    display: inline-block;
+                    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+                    color: white;
+                    padding: 16px 32px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    text-decoration: none;
+                    border-radius: 12px;
+                    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+                    transition: all 0.3s ease;
+                    border: none;
+                    cursor: pointer;
+                    margin: 20px 0;
+                }
+                .verification-button:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 12px 25px rgba(16, 185, 129, 0.4);
+                }
+                .note {
+                    font-size: 14px;
+                    color: #94a3b8;
+                    margin-top: 30px;
+                    line-height: 1.5;
+                }
+                .footer {
+                    background: rgba(0, 0, 0, 0.2);
+                    padding: 20px;
+                    text-align: center;
+                    border-top: 1px solid rgba(255, 255, 255, 0.1);
+                }
+                .footer-text {
+                    font-size: 12px;
+                    color: #cbd5e1;
+                    margin: 0;
+                }
+                @media (max-width: 600px) {
+                    .container {
+                        margin: 10px;
+                        border-radius: 15px;
+                    }
+                    .header, .content {
+                        padding: 30px 20px;
+                    }
+                    .title {
+                        font-size: 24px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1 class="title">Stock Alerts</h1>
+                    <p class="subtitle">Professional Trading Platform</p>
+                </div>
+
+                <div class="content">
+                    <p class="welcome-text">
+                        Welcome to Stock Alerts! We're excited to have you join our community of smart investors.
+                    </p>
+
+                    <p class="welcome-text" style="margin-bottom: 20px;">
+                        To complete your registration and start receiving personalized trading alerts, please verify your email address by clicking the button below:
+                    </p>
+
+                    <a href="${link}" class="verification-button">
+                        <svg style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Verify Email Address
+                    </a>
+
+                    <div class="note">
+                        <p><strong>Note:</strong> This verification link will expire in 24 hours for security reasons.</p>
+                        <p>If you didn't create an account with Stock Alerts, please ignore this email.</p>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <p class="footer-text">
+                        © 2025 Stock Alerts. All rights reserved.<br>
+                        This is an automated message, please do not reply to this email.
+                    </p>
+                </div>
+            </div>
+        </body>
+        </html>
+      `,
+    };
+    await step.run("send-verify-email", async () => {
+      const info = await transporter.sendMail(mailOptions);
+      console.log(
+        "Email inviata con successo a:",
+        email,
+        "ID messaggio:",
+        info.messageId
+      );
+      return { messageId: info.messageId };
+    });
+    return { success: true };
   }
-)
+);
