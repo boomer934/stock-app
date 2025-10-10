@@ -107,7 +107,7 @@ export async function PUT(request: Request) {
     });
     const baseUrl =
       process.env.NODE_ENV === "production"
-        ? "https://stock-alerts.vercel.app"
+        ? "https://stocks-alerts-app.vercel.app"
         : "http://localhost:3000";
 
     const link = `${baseUrl}/api/verify?token=${encodeURIComponent(token)}&method=PUT&prevEmail=${encodeURIComponent(prevEmail)}`;

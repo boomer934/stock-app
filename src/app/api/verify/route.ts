@@ -34,7 +34,7 @@ export async function GET(request: Request) {
 
     const baseUrl =
       process.env.NODE_ENV === "production"
-        ? "https://stock-alerts.vercel.app"
+        ? "https://stocks-alerts-app.vercel.app"
         : "http://localhost:3000";
 
     if (url.searchParams.get("method") === "PUT") {
