@@ -1,6 +1,6 @@
 import nodemailer, { Transporter } from "nodemailer";
 import { inngest } from "./client";
-import { getAccessToken } from "@/../Oauth";
+import { getAccessToken } from "../../Oauth";
 export const sendEmail = inngest.createFunction(
   { id: "send-email" },
   { event: "api/email.send-email" },
