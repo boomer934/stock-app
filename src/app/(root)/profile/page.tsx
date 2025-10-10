@@ -43,18 +43,15 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!data?.alerts) return;
-    console.log(data.alerts)
     const newActivities = data.alerts.map((alert: Alert) => ({
       type: "alert",
       message: alert.name,
-      time: Date.UTC(new Date(alert?.createdAt).getUTCFullYear(), new Date(alert?.createdAt).getUTCMonth(), new Date(alert?.createdAt).getDate()),
+      time: new Date(alert.createdAt).getTime(),
       triggered: alert.isTriggered,
       color: alert.isTriggered === false ? "green" : "red",
     }));
-    console.log(newActivities[0])
     setActivities(newActivities);
   }, [data?.alerts]);
-  
 
   const tabs = [
     { id: "overview", name: "Overview", icon: ChartBarIcon },

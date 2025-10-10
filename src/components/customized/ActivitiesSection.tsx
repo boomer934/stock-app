@@ -1,5 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Activity } from "@/lib/types/generic";
+type ActivityWithDiff = Activity & {
+  diffDays: number;
+  diffHours: number;
+  diffMinutes: number;
+  diffSeconds: number;
+};
 
 export default function ActivitiesSection({
   activities,
@@ -8,15 +14,31 @@ export default function ActivitiesSection({
   activities: Activity[];
   setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
 }) {
-  const now = new Date();
+  const [activitiesWithDiff, setActivitiesWithDiff] = useState<
+    ActivityWithDiff[]
+  >([]);
+  const now = Date.now();
   useEffect(() => {
-    console.log(now.getTime());
-    console.log(new Date(activities[0]?.time).getUTCDate());
+    const update: ActivityWithDiff[] = activities.map((a, i) => {
+      const time =
+        typeof a.time === "number" ? a.time : new Date(a.time).getTime();
+      const diffTime = Math.abs(now - time);
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+      const diffMinutes = Math.floor(diffTime / (1000 * 60));
+      const diffSeconds = Math.floor(diffTime / 1000);
+      return { ...a, diffDays, diffHours, diffMinutes, diffSeconds };
+    });
+    setActivitiesWithDiff(update);
   }, [activities]);
+
   return (
-    <div>
-      {activities
-        .slice(activities.length - 3, activities.length)
+    <div className="flex flex-col-reverse gap-4">
+      {activitiesWithDiff
+        .slice(
+          activitiesWithDiff.length - 3 < 0 ? 0 : activitiesWithDiff.length - 3,
+          activitiesWithDiff.length
+        )
         .map((activity, index) => {
           return (
             <div
@@ -25,14 +47,24 @@ export default function ActivitiesSection({
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div
-                className={`w-3 h-3 rounded-full bg-${activity.color}-400 animate-pulse`}
+                className={`w-3 h-3 rounded-full ${
+                  activity.color === "green" ? "bg-green-400" : "bg-red-400"
+                } animate-pulse`}
               ></div>
-              <div className="flex-1">
+              <div className="flex-1 ">
                 <p className="text-yellow-400/90">{activity.message}</p>
                 <p className="text-yellow-400/50 text-sm">
-                  {  now.getUTCDate() - new Date(activity.time).getUTCDate()  == 0 ? "More than 30 days ago"  : Math.floor(
-                    (now.getUTCDate() - new Date(activity.time).getUTCDate())
-                  ) + " days ago"}
+                  {(() => {
+                    if (activity.diffDays > 0)
+                      return `${activity.diffDays} days ago`;
+                    if (activity.diffHours > 0)
+                      return `${activity.diffHours} hours ago`;
+                    if (activity.diffMinutes > 0)
+                      return `${activity.diffMinutes} minutes ago`;
+                    if (activity.diffSeconds > 0)
+                      return `${activity.diffSeconds} seconds ago`;
+                    return "Just now";
+                  })()}
                 </p>
               </div>
             </div>

@@ -36,7 +36,7 @@ export type ToggleAlertParams = {
 export type Activity = {
   type: string;
   message: string;
-  time: string;
+  time: string | number;
   triggered: boolean;
   color: string;
 };
