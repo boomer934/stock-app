@@ -1,8 +1,6 @@
 import axios from "axios";
 import React from "react";
 import { ToggleAlertParams } from "@/lib/types/generic";
-import { useQueryClient } from "@tanstack/react-query";
-
 export async function handleAddAlert({
   newAlert,
   setNewAlert,

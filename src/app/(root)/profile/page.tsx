@@ -62,7 +62,7 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="bg-gray-900/50 backdrop-blur-xl border border-yellow-400/30 rounded-2xl p-6 sm:p-8 mb-8 animate-fade-in-down">

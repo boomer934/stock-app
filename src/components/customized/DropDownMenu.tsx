@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import {PersonIcon} from "@radix-ui/react-icons"
+import { PersonIcon } from "@radix-ui/react-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,22 +23,29 @@ export default function DropDownMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="bg-yellow-400 text-black p-2 sm:p-3 text-xs sm:text-sm">
+        <Button className="bg-yellow-400 text-black p-2 sm:p-3 text-xs sm:text-sm hover:bg-yellow-500 hover:text-black md:scale-130">
           <PersonIcon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="border-none outline-none bg-gray-700 text-yellow-400 mr-2 sm:mr-4 min-w-[120px]">
-        <DropdownMenuItem className="text-right text-sm hover:bg-gray-600 cursor-pointer" asChild>
+      <DropdownMenuContent className="border-none outline-none bg-gray-700 text-yellow-400 mr-2 sm:mr-4 min-w-[120px] md:scale-120 md:translate-x-[-10px]">
+        <DropdownMenuItem
+          className="text-right text-sm hover:bg-gray-600 cursor-pointer"
+          asChild
+        >
           <Link href="/alerts">Alerts</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-right text-sm hover:bg-gray-600 cursor-pointer" asChild>
+        <DropdownMenuItem
+          className="text-right text-sm hover:bg-gray-600 cursor-pointer"
+          asChild
+        >
           <Link href="/profile">Profile</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-right text-sm hover:bg-gray-600 cursor-pointer" asChild>
+        <DropdownMenuItem
+          className="text-right text-sm hover:bg-gray-600 cursor-pointer"
+          asChild
+        >
           {user ? (
-            <button onClick={handleLogoutClick}>
-              Logout
-            </button>
+            <button onClick={handleLogoutClick} className="w-full">Logout</button>
           ) : (
             <Link href="/login">Login</Link>
           )}

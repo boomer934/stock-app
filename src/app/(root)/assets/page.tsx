@@ -5,11 +5,10 @@ import CompanyProfile from "@/components/customized/CompanyProfile";
 import TechnicalAnalisys from "@/components/customized/TechnicalAnalisys";
 import FundamentalData from "@/components/customized/FoundamentalData";
 import React, { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 export default function Assets() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const value = searchParams.get("value");
   const [refreshKey, setRefreshKey] = useState(0);
 
