@@ -178,3 +178,16 @@
 .stagger-6 {
   animation-delay: 0.6s;
 }
+
+/* Disable glow effects on touch devices to prevent cursor jumping */
+@media (hover: none) and (pointer: coarse) {
+  .glow-effect-red,
+  .glow-effect-green {
+    animation: none;
+    box-shadow: 0 0 5px rgba(248, 113, 113, 0.2);
+  }
+
+  .glow-effect-green {
+    box-shadow: 0 0 5px rgba(34, 197, 94, 0.2);
+  }
+}

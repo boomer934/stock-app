@@ -330,7 +330,7 @@ export default function Alerts() {
                     onChange={(e) =>
                       setNewFields({
                         ...newFields,
-                        target: e.target.value ? e.target.value : alert.target,
+                        target: e.target.value,
                       })
                     }
                     disabled={!toggleTarget[alert.id]}
