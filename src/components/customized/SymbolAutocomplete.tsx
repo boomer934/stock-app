@@ -15,6 +15,16 @@ interface SymbolAutocompleteProps {
   className?: string;
 }
 
+/**
+ * Render an input-backed autocomplete for searching and selecting stock symbols.
+ *
+ * @param value - Controlled input value shown in the text field
+ * @param onChange - Called with the new input value when the user types or a symbol is selected
+ * @param onSymbolSelect - Called with the selected symbol when a result is chosen from the dropdown
+ * @param placeholder - Optional placeholder text for the input (defaults to "Type symbol or company name...")
+ * @param className - Optional additional CSS classes applied to the outer container
+ * @returns The component's JSX element tree for the symbol autocomplete UI
+ */
 export default function SymbolAutocomplete({
   value,
   onChange,
