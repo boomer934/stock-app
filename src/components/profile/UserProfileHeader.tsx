@@ -22,15 +22,15 @@ export default function UserProfileHeader({ user, data }: UserProfileHeaderProps
           </div>
 
           <div className="space-y-2">
-            <h1 className="text-3xl sm:text-4xl font-bold text-yellow-400 animate-fade-in-right">
+            <h1 className="text-xl sm:text-2xl md:text-[30px] font-bold text-yellow-400 animate-fade-in-right">
               {"Welcome Back!"}
             </h1>
-            <p className="text-yellow-400/70 text-lg animate-fade-in-right stagger-1">
-              {user?.email || ""}
+            <p className="text-yellow-400/70 text-[13px] md:text-[15px] animate-fade-in-right stagger-1  break-all overflow-hidden">
+              {user?.email || "Guest"}
             </p>
             <div className="flex items-center gap-2 animate-fade-in-right stagger-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-sm text-green-400 font-medium">
+              <span className="text-xs md:text-[15px] text-green-400 font-medium">
                 Active Trader
               </span>
             </div>
@@ -67,7 +67,7 @@ export default function UserProfileHeader({ user, data }: UserProfileHeaderProps
             {(() => {
               const total = data?.alerts?.length || 0;
               const triggered =
-                data?.alerts?.filter((a: Alert) => !a.isTriggered).length ||
+                data?.alerts?.filter((a: Alert) => a.isTriggered).length ||
                 0;
               if (triggered === 0)
                 return (
@@ -76,7 +76,7 @@ export default function UserProfileHeader({ user, data }: UserProfileHeaderProps
               const percent = (triggered / total) * 100;
               return (
                 <p className="text-2xl font-bold text-blue-400/70">
-                  {percent.toFixed(2)}%
+                  {percent.toFixed(1)}%
                 </p>
               );
             })()}

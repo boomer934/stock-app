@@ -13,7 +13,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import "./style.css";
 import SymbolAutocomplete from "@/components/customized/SymbolAutocomplete";
 export default function Alerts() {
-  const [alerts, setAlerts] = useState<Alert[]>([]);
   const queryClient = useQueryClient();
   const [showAddForm, setShowAddForm] = useState(false);
   const [toggleTarget, setToggleTarget] = useState<{ [id: string]: boolean }>(
@@ -31,15 +30,14 @@ export default function Alerts() {
     isTriggered: false,
   });
   const [searchSymbol, setSearchSymbol] = useState("");
-  const [filteredSymbols, setFilteredSymbols] = useState<[]>([]);
+
   const ref = useRef<HTMLButtonElement>(null);
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
   const {
     data: alertsData,
-    isLoading,
     error,
   } = useQuery({
-    queryKey: ["alerts", alerts],
+    queryKey: ["alerts"],
     queryFn: () => getAllAlerts(),
   });
 

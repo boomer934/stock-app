@@ -101,14 +101,25 @@ export async function deleteAlert({
   queryClient: any;
 }) {
   try {
-    const response = axios.delete(`/api/alerts/${alertId}`);
-    if (!response) {
-      return (await response).data;
+    const response = await axios.delete(`/api/alerts/${alertId}`);
+
+    // Check for success status (2xx range)
+    if (response.status >= 200 && response.status < 300) {
+      queryClient.invalidateQueries({ queryKey: ["alerts"] });
+      return response.data;
     }
-    queryClient.invalidateQueries({ queryKey: ["alerts"] });
-    return (await response).data;
+
+    // Handle non-success responses
+    const errorMessage = response.data?.message || `HTTP ${response.status}: ${response.statusText}`;
+    throw new Error(`Failed to delete alert: ${errorMessage}`);
   } catch (error) {
-    console.error({ error: error });
-    return error;
+    // Re-throw axios errors or custom errors
+    if (error instanceof Error) {
+      throw error;
+    }
+
+    // Handle unexpected errors
+    console.error("Unexpected error in deleteAlert:", error);
+    throw new Error(`Failed to delete alert: ${error}`);
   }
 }

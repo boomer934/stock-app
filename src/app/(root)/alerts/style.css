@@ -69,7 +69,7 @@
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.4s ease-out forwards;
+  animation: scaleIn 400ms ease-out forwards;
 }
 
 .animate-pulse-slow {
@@ -92,7 +92,7 @@
 }
 
 .card-hover {
-  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-hover:hover {
