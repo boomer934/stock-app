@@ -7,6 +7,13 @@ import { SearchSchema } from "@/lib/types/generic";
 import AutoSuggestions from "./AutoSuggestions";
 import {MagnifyingGlassIcon, Cross1Icon} from "@radix-ui/react-icons"
 
+/**
+ * Renders a full-screen modal search interface that accepts a query and navigates to `/assets?value=<query>`.
+ *
+ * @param open - Whether the modal is visible
+ * @param setOpen - State setter to open or close the modal
+ * @returns The portal-mounted modal element when the component is mounted and `open` is true, otherwise `null`
+ */
 export default function BgCoverSearchBar({
   open,
   setOpen,
