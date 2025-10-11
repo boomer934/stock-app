@@ -1,6 +1,15 @@
 import axios from "axios";
 import React from "react";
 import { ToggleAlertParams } from "@/lib/types/generic";
+/**
+ * Adds a new alert via the API and updates local UI state and cache.
+ *
+ * @param newAlert - The alert values to submit (target is provided as a string and will be converted to a number).
+ * @param setNewAlert - State setter to reset the new-alert form values after successful creation.
+ * @param setShowAddForm - State setter to hide the add-alert form after successful creation.
+ * @param queryClient - Query client instance used to invalidate the "alerts" cache after creation.
+ * @returns The created alert data on success, `undefined` otherwise.
+ */
 export async function handleAddAlert({
   newAlert,
   setNewAlert,
