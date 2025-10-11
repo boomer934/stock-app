@@ -25,13 +25,11 @@ export async function handleAddAlert({
   queryClient: any;
 }) {
   try {
-    console.log(newAlert)
     if (!newAlert) {
       return;
     }
     const target = parseFloat(newAlert.target);
     const newAlertWithTarget = { ...newAlert, target };
-    console.log(newAlertWithTarget)
     const response = await axios.post("/api/alerts", newAlertWithTarget);
     if (response.status === 200) {
       setNewAlert({
@@ -45,7 +43,7 @@ export async function handleAddAlert({
       return response.data;
     }
   } catch (error) {
-    console.log(error);
+    console.error("Error in handleAddAlert:", error);
   }
 }
 
@@ -54,7 +52,7 @@ export async function getAllAlerts() {
     const response = await axios.get("/api/alerts");
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error in getAllAlerts:", error);
   }
 }
 
@@ -82,7 +80,7 @@ export async function toggleAlert(
       return response.data;
     }
   } catch (error) {
-    console.log(error);
+    console.error("Error in toggleAlert:", error);
   }
 }
 
@@ -94,10 +92,8 @@ export async function deleteAlert({
   queryClient: any;
 }) {
   try {
-    console.log(alertId);
     const response = axios.delete(`/api/alerts/${alertId}`);
     if (!response) {
-      console.log({ error: (await response).data });
       return (await response).data;
     }
     queryClient.invalidateQueries({ queryKey: ["alerts"] });
