@@ -25,11 +25,13 @@ export async function handleAddAlert({
   queryClient: any;
 }) {
   try {
+    console.log(newAlert)
     if (!newAlert) {
       return;
     }
     const target = parseFloat(newAlert.target);
     const newAlertWithTarget = { ...newAlert, target };
+    console.log(newAlertWithTarget)
     const response = await axios.post("/api/alerts", newAlertWithTarget);
     if (response.status === 200) {
       setNewAlert({
