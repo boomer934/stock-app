@@ -101,14 +101,13 @@ export async function deleteAlert({
   queryClient: any;
 }) {
   try {
-    const response = axios.delete(`/api/alerts/${alertId}`);
-    if (!response) {
-      return (await response).data;
+    const response = await axios.delete(`/api/alerts/${alertId}`);
+    if (response.status === 200) {
+      queryClient.invalidateQueries({ queryKey: ["alerts"] });
+      return response.data;
     }
-    queryClient.invalidateQueries({ queryKey: ["alerts"] });
-    return (await response).data;
   } catch (error) {
-    console.error({ error: error });
+    console.error("Error in deleteAlert:", error);
     return error;
   }
 }

@@ -13,7 +13,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import "./style.css";
 import SymbolAutocomplete from "@/components/customized/SymbolAutocomplete";
 export default function Alerts() {
-  const [alerts, setAlerts] = useState<Alert[]>([]);
   const queryClient = useQueryClient();
   const [showAddForm, setShowAddForm] = useState(false);
   const [toggleTarget, setToggleTarget] = useState<{ [id: string]: boolean }>(
@@ -31,15 +30,14 @@ export default function Alerts() {
     isTriggered: false,
   });
   const [searchSymbol, setSearchSymbol] = useState("");
-  const [filteredSymbols, setFilteredSymbols] = useState<[]>([]);
+
   const ref = useRef<HTMLButtonElement>(null);
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
   const {
     data: alertsData,
-    isLoading,
     error,
   } = useQuery({
-    queryKey: ["alerts", alerts],
+    queryKey: ["alerts"],
     queryFn: () => getAllAlerts(),
   });
 
@@ -165,7 +163,7 @@ export default function Alerts() {
                 ? "bg-red-900/20 border-2 border-red-400/60 shadow-red-400/30 shadow-xl glow-effect-red"
                 : "bg-green-900/15 border-2 border-green-400/50 shadow-green-400/20 shadow-lg glow-effect-green"
             }`}
-            style={{ animationDelay: `${index * 0.1}s` }}
+            style={{ animationDelay: `${index * 0.5}s` }}
           >
             {/* Alert Status Badge */}
             <div className="flex justify-between items-start mb-4">
