@@ -163,7 +163,7 @@ export default function Alerts() {
                 ? "bg-red-900/20 border-2 border-red-400/60 shadow-red-400/30 shadow-xl glow-effect-red"
                 : "bg-green-900/15 border-2 border-green-400/50 shadow-green-400/20 shadow-lg glow-effect-green"
             }`}
-            style={{ animationDelay: `${index * 0.5}s` }}
+            style={{ animationDelay: `${index * 0.1}s` }}
           >
             {/* Alert Status Badge */}
             <div className="flex justify-between items-start mb-4">

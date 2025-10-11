@@ -69,7 +69,7 @@
 }
 
 .animate-scale-in {
-  animation: scaleIn 3s ease-out forwards;
+  animation: scaleIn 400ms ease-out forwards;
 }
 
 .animate-pulse-slow {
