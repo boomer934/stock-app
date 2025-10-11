@@ -39,5 +39,5 @@ export async function middleware(request: NextRequest) {
 
 // Specifica le rotte protette
 export const config = {
-  matcher: ["/alerts/:path*", "/api/alerts/:path*"],
+  matcher: ["/alerts/:path*", "/api/alerts/:path*", "/profile/:path*"],
 };

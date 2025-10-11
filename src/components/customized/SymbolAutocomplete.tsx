@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import symbols from "@/../fetch/symbols-full.json";
 interface SymbolItem {
   symbol: string;
   name: string;
@@ -23,20 +23,11 @@ export default function SymbolAutocomplete({
   className = "",
 }: SymbolAutocompleteProps) {
   const [filteredSymbols, setFilteredSymbols] = useState<SymbolItem[]>([]);
-  const [symbols, setSymbols] = useState<{ symbols: SymbolItem[] } | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Import symbols dynamically
-  useEffect(() => {
-    setIsLoading(true);
-    import("@/../fetch/symbols-full.json").then((data) => {
-      setSymbols(data);
-      setIsLoading(false);
-    });
-  }, []);
+  const memoSymbols = useMemo(() => symbols.symbols, [symbols]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -45,18 +36,17 @@ export default function SymbolAutocomplete({
         setIsOpen(false);
         return;
       }
-      if (!symbols) return;
+      if (!memoSymbols) return;
 
-      const filtered = symbols.symbols.filter((s) =>
-        s.symbol.toLowerCase().startsWith(value.toLowerCase()) ||
-        s.name.toLowerCase().includes(value.toLowerCase())
+      const filtered = memoSymbols.filter((s) =>
+        s.symbol.toLowerCase().startsWith(value.toLowerCase())
       );
       const top10 = filtered.slice(0, 10);
       setFilteredSymbols(top10);
       setIsOpen(top10.length > 0);
     }, 300);
     return () => clearTimeout(timeout);
-  }, [value, symbols]);
+  }, [value, memoSymbols]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
